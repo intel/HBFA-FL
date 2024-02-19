@@ -1,0 +1,38 @@
+## @file
+# Component description file for TestUsb module.
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestUsb
+  FILE_GUID                      = CFDACAD0-E720-4F6F-A023-448851EEFB93
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestUsb.c
+  MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBus.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UefiHostFuzzTestCasePkg/UefiHostFuzzTestCasePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  DebugLib
+  UefiBootServicesTableLib
+  Usb2HcStubLib
+  ToolChainHarnessLib

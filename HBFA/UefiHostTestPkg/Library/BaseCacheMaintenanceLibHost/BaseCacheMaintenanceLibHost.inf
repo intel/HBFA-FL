@@ -1,0 +1,31 @@
+## @file
+#  Instance of Cache Maintenance Library using Base Library services.
+#
+#  Cache Maintenance Library that uses Base Library services to maintain caches.
+#  This library assumes there are no chipset dependencies required to maintain caches.
+#
+#  Copyright (c) 2007 - 2018, Intel Corporation. All rights reserved.<BR>
+#  Portions copyright (c) 2008 - 2009, Apple Inc. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BaseCacheMaintenanceLibHost
+  FILE_GUID                      = 0F652FA7-946D-4737-A6D7-4B8B97AD0EA3
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.1
+  LIBRARY_CLASS                  = CacheMaintenanceLib
+
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC ARM AARCH64
+#
+
+[Sources]
+  Cache.c
+
+[Packages]
+  MdePkg/MdePkg.dec

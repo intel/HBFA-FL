@@ -1,0 +1,15 @@
+## @file  UefiHostTestPkg.dec
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = UefiHostTestPkg
+  PACKAGE_GUID                   = 1D212CA8-77BF-4957-80DA-75609227E70C
+  PACKAGE_VERSION                = 0.11
+
+[Includes.common]
+  Include

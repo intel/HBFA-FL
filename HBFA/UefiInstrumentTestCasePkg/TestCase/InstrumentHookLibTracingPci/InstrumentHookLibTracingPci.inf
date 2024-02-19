@@ -1,0 +1,36 @@
+## @file
+#
+# Copyright (c) 2017, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = InstrumentHookLibTracingPci
+  FILE_GUID                      = 7973B1E7-660A-486A-87D9-8EEE17079B9B
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = InstrumentHookLib
+
+[Sources]
+  InstrumentHookLibTracingPci.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiInstrumentTestPkg/UefiInstrumentTestPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  DebugLib
+  IoLib
+
+[Pcd]
+  gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress
+
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = /Od /GL-
+  GCC:*_*_*_CC_FLAGS = -O0
+

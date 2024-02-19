@@ -1,0 +1,43 @@
+## @file
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = UefiBootServicesTableLibHost
+  FILE_GUID                      = D440EF07-2EFD-4054-BEAC-88ED18722C8F
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = UefiBootServicesTableLib
+  CONSTRUCTOR                    = UefiBootServicesTableLibConstructor
+
+[Sources]
+  UefiBootServicesTableLibHost.c
+  DriverSupport.c
+  Handle.c
+  Locate.c
+  Notify.c
+  Tpl.c
+  Library.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  DevicePathLib
+  PerformanceLib
+
+[Protocols]
+  gEfiDevicePathProtocolGuid
+  gEfiPlatformDriverOverrideProtocolGuid
+  gEfiDriverBindingProtocolGuid
+  gEfiBusSpecificDriverOverrideProtocolGuid
+  gEfiDriverFamilyOverrideProtocolGuid
+  gEfiLoadedImageProtocolGuid

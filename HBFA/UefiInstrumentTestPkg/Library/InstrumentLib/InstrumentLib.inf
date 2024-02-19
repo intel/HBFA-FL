@@ -1,0 +1,48 @@
+## @file
+#
+# Copyright (c) 2017, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = InstrumentLib
+  FILE_GUID                      = 06C8E8A4-C8A8-4E19-B38D-13F0E1E48470
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = NULL
+
+[Sources]
+
+[Sources.Ia32]
+  Ia32/FuncParamMsvc.c           | MSFT
+  Ia32/PEnterExit.nasm           | MSFT
+  Ia32/PEnterExitStub.c          | MSFT
+  Ia32/FuncParamGcc.c            | GCC
+  Ia32/CygProfileEnterExit.nasm  | GCC
+  Ia32/CygProfileEnterExitStub.c | GCC
+
+[Sources.X64]
+  X64/FuncParamMsvc.c           | MSFT
+  X64/PEnterExit.nasm           | MSFT
+  X64/PEnterExitStub.c          | MSFT
+  X64/FuncParamGcc.c            | GCC
+  X64/CygProfileEnterExit.nasm  | GCC
+  X64/CygProfileEnterExitStub.c | GCC
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiInstrumentTestPkg/UefiInstrumentTestPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  InstrumentHookLib
+  DebugLib
+
+[BuildOptions]
+  # https://msdn.microsoft.com/en-us/library/c63a9b7h.aspx
+  MSFT:*_*_*_CC_FLAGS = /Od /GL-
+  # https://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html#Code-Gen-Options
+  GCC:*_*_*_CC_FLAGS = -O0
+
