@@ -1,0 +1,6 @@
+[book]
+authors = ["el-tipton"]
+language = "en"
+multilingual = False
+src = "src"
+title = "HBFA-FL: Host-Based Firmware Analyzer - Fuzzing Lite"
