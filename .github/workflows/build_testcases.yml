@@ -10,16 +10,25 @@ on:
 jobs:
   build_test_artifacts:
     name: Build Testcases
-    runs-on: ubuntu-22-build
+    runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/tianocore/containers/ubuntu-22-build:a0dd93
+      image: ghcr.io/tianocore/containers/ubuntu-22-build
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Install Dependencies
+        run: |
+          sudo apt-get -y update && \
+          sudo apt-get -y install \
+            clang libclang-dev llvm
       - name: Retrieve and build EDK2
         run: |
           git clone https://github.com/tianocore/edk2.git --recursive && \
-          pushd edk2 && make -C BaseTools && source edksetup.sh && \
-          popd && export -p > envsave 
+          pushd edk2 && make -C BaseTools && \
+          source edksetup.sh && popd && \
+          export -p > envsave
       - name: Setting up HBFA-FL and Build Environment
         run: |
           source envsave && \
@@ -35,7 +44,7 @@ jobs:
           export AFL_PATH=$WORKSPACE/afl-2.52b && \
           export PATH=$PATH:$AFL_PATH && \
           export -p > envsave && \
-          pushd afl-2.52b && make && popd 
+          cd afl-2.52b && make && cd .. 
       - name: Build Fuzzing Harnesses
         run: |
           source envsave && \
