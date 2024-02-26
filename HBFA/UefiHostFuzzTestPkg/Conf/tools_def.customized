@@ -1,0 +1,614 @@
+#
+#  Copyright (c) 2019, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+
+####################################################################################
+# GCC Common for AFL/Klee
+####################################################################################
+DEFINE AFL_IA32_PREFIX        = ENV(AFL_BIN)
+DEFINE AFL_X64_PREFIX         = ENV(AFL_BIN)
+
+DEFINE KLEE_IA32_PREFIX        = ENV(KLEE_BIN)
+DEFINE KLEE_X64_PREFIX         = ENV(KLEE_BIN)
+
+DEFINE AFL_IA32_CC_FLAGS            = DEF(GCC5_IA32_CC_FLAGS) -fno-pic -fno-pie
+DEFINE AFL_X64_CC_FLAGS             = DEF(GCC5_X64_CC_FLAGS)
+DEFINE AFL_IA32_X64_DLINK_COMMON    = DEF(GCC5_IA32_X64_DLINK_COMMON)
+DEFINE AFL_IA32_X64_ASLDLINK_FLAGS  = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS)
+DEFINE AFL_IA32_X64_DLINK_FLAGS     = DEF(GCC5_IA32_X64_DLINK_FLAGS)
+DEFINE AFL_IA32_DLINK2_FLAGS        = DEF(GCC5_IA32_DLINK2_FLAGS) -Wno-error
+DEFINE AFL_X64_DLINK_FLAGS          = DEF(GCC5_X64_DLINK_FLAGS)
+DEFINE AFL_X64_DLINK2_FLAGS         = DEF(GCC5_X64_DLINK2_FLAGS) -Wno-error
+DEFINE AFL_ASM_FLAGS                = DEF(GCC5_ASM_FLAGS)
+DEFINE AFL_ARM_ASM_FLAGS            = DEF(GCC5_ARM_ASM_FLAGS)
+DEFINE AFL_AARCH64_ASM_FLAGS        = DEF(GCC5_AARCH64_ASM_FLAGS)
+DEFINE AFL_ARM_CC_FLAGS             = DEF(GCC5_ARM_CC_FLAGS)
+DEFINE AFL_ARM_CC_XIPFLAGS          = DEF(GCC5_ARM_CC_XIPFLAGS)
+DEFINE AFL_AARCH64_CC_FLAGS         = DEF(GCC5_AARCH64_CC_FLAGS)
+DEFINE AFL_AARCH64_CC_XIPFLAGS      = DEF(GCC5_AARCH64_CC_XIPFLAGS)
+DEFINE AFL_ARM_DLINK_FLAGS          = DEF(GCC5_ARM_DLINK_FLAGS)
+DEFINE AFL_ARM_DLINK2_FLAGS         = DEF(GCC5_ARM_DLINK2_FLAGS) -Wno-error
+DEFINE AFL_AARCH64_DLINK_FLAGS      = DEF(GCC5_AARCH64_DLINK_FLAGS)
+DEFINE AFL_AARCH64_DLINK2_FLAGS     = DEF(GCC5_AARCH64_DLINK2_FLAGS) -Wno-error
+DEFINE AFL_ARM_ASLDLINK_FLAGS       = DEF(GCC5_ARM_ASLDLINK_FLAGS)
+DEFINE AFL_AARCH64_ASLDLINK_FLAGS   = DEF(GCC5_AARCH64_ASLDLINK_FLAGS)
+
+
+DEFINE KLEE_IA32_CC_FLAGS            = DEF(GCC48_ALL_CC_FLAGS) -MD -Wno-deprecated-declarations -Wno-unused-result -Wno-error -Wno-int-to-void-pointer-cast -Wno-int-to-pointer-cast -g -O2  -O0 -emit-llvm
+DEFINE KLEE_X64_CC_FLAGS             = DEF(GCC48_ALL_CC_FLAGS) -MD -Wno-deprecated-declarations -Wno-unused-result -g -O2  -O0 -emit-llvm
+DEFINE KLEE_IA32_X64_DLINK_COMMON    = DEF(GCC5_IA32_X64_DLINK_COMMON)
+DEFINE KLEE_IA32_X64_ASLDLINK_FLAGS  = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS)
+DEFINE KLEE_IA32_X64_DLINK_FLAGS     = DEF(GCC5_IA32_X64_DLINK_FLAGS)
+DEFINE KLEE_IA32_DLINK2_FLAGS        = DEF(GCC5_IA32_DLINK2_FLAGS) -Wno-error
+DEFINE KLEE_X64_DLINK_FLAGS          = DEF(GCC5_X64_DLINK_FLAGS)
+DEFINE KLEE_X64_DLINK2_FLAGS         = DEF(GCC5_X64_DLINK2_FLAGS) -Wno-error
+DEFINE KLEE_ASM_FLAGS                = DEF(GCC5_ASM_FLAGS)
+DEFINE KLEE_ARM_ASM_FLAGS            = DEF(GCC5_ARM_ASM_FLAGS)
+DEFINE KLEE_AARCH64_ASM_FLAGS        = DEF(GCC5_AARCH64_ASM_FLAGS)
+DEFINE KLEE_ARM_CC_FLAGS             = DEF(GCC5_ARM_CC_FLAGS)
+DEFINE KLEE_ARM_CC_XIPFLAGS          = DEF(GCC5_ARM_CC_XIPFLAGS)
+DEFINE KLEE_AARCH64_CC_FLAGS         = DEF(GCC5_AARCH64_CC_FLAGS)
+DEFINE KLEE_AARCH64_CC_XIPFLAGS      = DEF(GCC5_AARCH64_CC_XIPFLAGS)
+DEFINE KLEE_ARM_DLINK_FLAGS          = DEF(GCC5_ARM_DLINK_FLAGS)
+DEFINE KLEE_ARM_DLINK2_FLAGS         = DEF(GCC5_ARM_DLINK2_FLAGS) -Wno-error
+DEFINE KLEE_AARCH64_DLINK_FLAGS      = DEF(GCC5_AARCH64_DLINK_FLAGS)
+DEFINE KLEE_AARCH64_DLINK2_FLAGS     = DEF(GCC5_AARCH64_DLINK2_FLAGS) -Wno-error
+DEFINE KLEE_ARM_ASLDLINK_FLAGS       = DEF(GCC5_ARM_ASLDLINK_FLAGS)
+DEFINE KLEE_AARCH64_ASLDLINK_FLAGS   = DEF(GCC5_AARCH64_ASLDLINK_FLAGS)
+
+####################################################################################
+#
+# AFL - This configuration is used to compile under Linux to produce
+#  PE/COFF binaries using AFL with Link Time Optimization enabled
+#
+####################################################################################
+*_AFL_*_*_FAMILY                = GCC
+
+*_AFL_*_MAKE_PATH               = DEF(GCC_HOST_PREFIX)make
+*_AFL_*_*_DLL                   = ENV(AFL_DLL)
+*_AFL_*_ASL_PATH                = DEF(UNIX_IASL_BIN)
+
+*_AFL_*_PP_FLAGS                = DEF(GCC_PP_FLAGS)
+*_AFL_*_ASLPP_FLAGS             = DEF(GCC_ASLPP_FLAGS)
+*_AFL_*_ASLCC_FLAGS             = DEF(GCC_ASLCC_FLAGS)
+*_AFL_*_VFRPP_FLAGS             = DEF(GCC_VFRPP_FLAGS)
+*_AFL_*_APP_FLAGS               =
+*_AFL_*_ASL_FLAGS               = DEF(IASL_FLAGS)
+*_AFL_*_ASL_OUTFLAGS            = DEF(IASL_OUTFLAGS)
+
+##################
+# AFL IA32 definitions
+##################
+*_AFL_IA32_OBJCOPY_PATH         = DEF(AFL_IA32_PREFIX)objcopy
+*_AFL_IA32_CC_PATH              = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_SLINK_PATH           = DEF(AFL_IA32_PREFIX)gcc-ar
+*_AFL_IA32_DLINK_PATH           = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_ASLDLINK_PATH        = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_ASM_PATH             = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_PP_PATH              = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_VFRPP_PATH           = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_ASLCC_PATH           = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_ASLPP_PATH           = DEF(AFL_IA32_PREFIX)gcc
+*_AFL_IA32_RC_PATH              = DEF(AFL_IA32_PREFIX)objcopy
+
+*_AFL_IA32_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m32 -fno-lto
+*_AFL_IA32_ASLDLINK_FLAGS       = DEF(AFL_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_i386 -no-pie
+*_AFL_IA32_ASM_FLAGS            = DEF(AFL_ASM_FLAGS) -m32 -march=i386
+*_AFL_IA32_DLINK2_FLAGS         = DEF(AFL_IA32_DLINK2_FLAGS) -no-pie
+*_AFL_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+*_AFL_IA32_OBJCOPY_FLAGS        =
+*_AFL_IA32_NASM_FLAGS           = -f elf32
+
+DEBUG_AFL_IA32_CC_FLAGS       = DEF(AFL_IA32_CC_FLAGS) -flto -Os
+DEBUG_AFL_IA32_DLINK_FLAGS    = DEF(AFL_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,-m,elf_i386,--oformat=elf32-i386
+
+RELEASE_AFL_IA32_CC_FLAGS       = DEF(AFL_IA32_CC_FLAGS) -flto -Os -Wno-unused-but-set-variable -Wno-unused-const-variable
+RELEASE_AFL_IA32_DLINK_FLAGS    = DEF(AFL_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,-m,elf_i386,--oformat=elf32-i386
+
+NOOPT_AFL_IA32_CC_FLAGS       = DEF(AFL_IA32_CC_FLAGS) -O0
+NOOPT_AFL_IA32_DLINK_FLAGS    = DEF(AFL_IA32_X64_DLINK_FLAGS) -Wl,-m,elf_i386,--oformat=elf32-i386 -O0
+
+##################
+# AFL X64 definitions
+##################
+*_AFL_X64_OBJCOPY_PATH          = DEF(AFL_X64_PREFIX)objcopy
+*_AFL_X64_CC_PATH               = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_SLINK_PATH            = DEF(AFL_X64_PREFIX)gcc-ar
+*_AFL_X64_DLINK_PATH            = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_ASLDLINK_PATH         = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_ASM_PATH              = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_PP_PATH               = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_VFRPP_PATH            = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_ASLCC_PATH            = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_ASLPP_PATH            = DEF(AFL_X64_PREFIX)gcc
+*_AFL_X64_RC_PATH               = DEF(AFL_X64_PREFIX)objcopy
+
+*_AFL_X64_ASLCC_FLAGS           = DEF(GCC_ASLCC_FLAGS) -m64 -fno-lto
+*_AFL_X64_ASLDLINK_FLAGS        = DEF(AFL_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64
+*_AFL_X64_ASM_FLAGS             = DEF(AFL_ASM_FLAGS) -m64
+*_AFL_X64_DLINK2_FLAGS          = DEF(AFL_X64_DLINK2_FLAGS)
+*_AFL_X64_RC_FLAGS              = DEF(GCC_X64_RC_FLAGS)
+*_AFL_X64_OBJCOPY_FLAGS         =
+*_AFL_X64_NASM_FLAGS            = -f elf64
+
+DEBUG_AFL_X64_CC_FLAGS        = DEF(AFL_X64_CC_FLAGS) -flto -DUSING_LTO -Os
+DEBUG_AFL_X64_DLINK_FLAGS     = DEF(AFL_X64_DLINK_FLAGS) -flto -Os
+
+RELEASE_AFL_X64_CC_FLAGS        = DEF(AFL_X64_CC_FLAGS) -flto -DUSING_LTO -Os -Wno-unused-but-set-variable -Wno-unused-const-variable
+RELEASE_AFL_X64_DLINK_FLAGS     = DEF(AFL_X64_DLINK_FLAGS) -flto -Os
+
+NOOPT_AFL_X64_CC_FLAGS        = DEF(AFL_X64_CC_FLAGS) -O0
+NOOPT_AFL_X64_DLINK_FLAGS     = DEF(AFL_X64_DLINK_FLAGS) -O0
+
+####################################################################################
+#
+# Klee - This configuration is used to compile under Linux to produce
+#  PE/COFF binaries using Klee with Link Time Optimization enabled
+#
+####################################################################################
+*_KLEE_*_*_FAMILY                = GCC
+*_KLEE_*_*_BUILDRULEFAMILY       = KLEE
+
+*_KLEE_*_MAKE_PATH               = DEF(GCC_HOST_PREFIX)make
+*_KLEE_*_*_DLL                   = ENV(KLEE_DLL)
+*_KLEE_*_ASL_PATH                = DEF(UNIX_IASL_BIN)
+
+*_KLEE_*_PP_FLAGS                = DEF(GCC_PP_FLAGS)
+*_KLEE_*_ASLPP_FLAGS             = DEF(GCC_ASLPP_FLAGS)
+*_KLEE_*_ASLCC_FLAGS             = DEF(GCC_ASLCC_FLAGS)
+*_KLEE_*_VFRPP_FLAGS             = DEF(GCC_VFRPP_FLAGS)
+*_KLEE_*_APP_FLAGS               =
+*_KLEE_*_ASL_FLAGS               = DEF(IASL_FLAGS)
+*_KLEE_*_ASL_OUTFLAGS            = DEF(IASL_OUTFLAGS)
+
+##################
+# KLEE IA32 definitions
+##################
+*_KLEE_IA32_OBJCOPY_PATH         = DEF(KLEE_IA32_PREFIX)objcopy
+*_KLEE_IA32_CC_PATH              = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_SLINK_PATH           = DEF(KLEE_IA32_PREFIX)llvm-ar
+*_KLEE_IA32_DLINK_PATH           = DEF(KLEE_IA32_PREFIX)llvm-link
+*_KLEE_IA32_ASLDLINK_PATH        = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_ASM_PATH             = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_PP_PATH              = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_VFRPP_PATH           = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_ASLCC_PATH           = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_ASLPP_PATH           = DEF(KLEE_IA32_PREFIX)wllvm
+*_KLEE_IA32_RC_PATH              = DEF(KLEE_IA32_PREFIX)objcopy
+
+*_KLEE_IA32_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m32 -fno-lto
+*_KLEE_IA32_ASLDLINK_FLAGS       = DEF(KLEE_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_i386 -no-pie
+*_KLEE_IA32_ASM_FLAGS            = DEF(KLEE_ASM_FLAGS) -m32 -march=i386
+*_KLEE_IA32_DLINK2_FLAGS         = DEF(KLEE_IA32_DLINK2_FLAGS) -no-pie
+*_KLEE_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+*_KLEE_IA32_OBJCOPY_FLAGS        =
+*_KLEE_IA32_NASM_FLAGS           = -f elf32
+
+  DEBUG_KLEE_IA32_CC_FLAGS       = DEF(KLEE_IA32_CC_FLAGS) -flto -Os
+  DEBUG_KLEE_IA32_DLINK_FLAGS    = DEF(KLEE_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,-m,elf_i386,--oformat=elf32-i386
+
+RELEASE_KLEE_IA32_CC_FLAGS       = DEF(KLEE_IA32_CC_FLAGS) -flto -Os -Wno-unused-but-set-variable -Wno-unused-const-variable
+RELEASE_KLEE_IA32_DLINK_FLAGS    = DEF(KLEE_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,-m,elf_i386,--oformat=elf32-i386
+
+  NOOPT_KLEE_IA32_CC_FLAGS       = DEF(KLEE_IA32_CC_FLAGS) -O0
+  NOOPT_KLEE_IA32_DLINK_FLAGS    = DEF(KLEE_IA32_X64_DLINK_FLAGS) -Wl,-m,elf_i386,--oformat=elf32-i386 -O0
+
+##################
+# KLEE X64 definitions
+##################
+*_KLEE_X64_OBJCOPY_PATH          = DEF(KLEE_X64_PREFIX)objcopy
+*_KLEE_X64_CC_PATH               = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_SLINK_PATH            = DEF(KLEE_X64_PREFIX)llvm-ar
+*_KLEE_X64_DLINK_PATH            = DEF(KLEE_X64_PREFIX)llvm-link
+*_KLEE_X64_ASLDLINK_PATH         = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_ASM_PATH              = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_PP_PATH               = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_VFRPP_PATH            = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_ASLCC_PATH            = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_ASLPP_PATH            = DEF(KLEE_X64_PREFIX)wllvm
+*_KLEE_X64_RC_PATH               = DEF(KLEE_X64_PREFIX)objcopy
+
+*_KLEE_X64_ASLCC_FLAGS           = DEF(GCC_ASLCC_FLAGS) -m64 -fno-lto
+*_KLEE_X64_ASLDLINK_FLAGS        = DEF(KLEE_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64
+*_KLEE_X64_ASM_FLAGS             = DEF(KLEE_ASM_FLAGS) -m64
+*_KLEE_X64_DLINK2_FLAGS          = DEF(KLEE_X64_DLINK2_FLAGS)
+*_KLEE_X64_RC_FLAGS              = DEF(GCC_X64_RC_FLAGS)
+*_KLEE_X64_OBJCOPY_FLAGS         =
+*_KLEE_X64_NASM_FLAGS            = -f elf64
+
+DEBUG_KLEE_X64_CC_FLAGS        = DEF(KLEE_X64_CC_FLAGS) -flto -DUSING_LTO -Os
+DEBUG_KLEE_X64_DLINK_FLAGS     = DEF(KLEE_X64_DLINK_FLAGS) -flto -Os
+
+RELEASE_KLEE_X64_CC_FLAGS        = DEF(KLEE_X64_CC_FLAGS) -flto -DUSING_LTO -Os -Wno-unused-but-set-variable -Wno-unused-const-variable
+RELEASE_KLEE_X64_DLINK_FLAGS     = DEF(KLEE_X64_DLINK_FLAGS) -flto -Os
+
+NOOPT_KLEE_X64_CC_FLAGS        = DEF(KLEE_X64_CC_FLAGS) -O0
+NOOPT_KLEE_X64_DLINK_FLAGS     = DEF(KLEE_X64_DLINK_FLAGS) -O0
+  
+####################################################################################
+#
+# Clang 8 - This configuration is used to compile under Linux to produce
+#  PE/COFF binaries using LLVM/Clang 8 with Link Time Optimization enabled
+#
+####################################################################################
+*_CLANG8_*_*_FAMILY                = GCC
+*_CLANG8_*_MAKE_PATH               = make
+*_CLANG8_*_*_DLL                   = ENV(CLANG8_DLL)
+*_CLANG8_*_ASL_PATH                = DEF(UNIX_IASL_BIN)
+
+*_CLANG8_*_APP_FLAGS               =
+*_CLANG8_*_ASL_FLAGS               = DEF(IASL_FLAGS)
+*_CLANG8_*_ASL_OUTFLAGS            = DEF(IASL_OUTFLAGS)
+
+DEFINE CLANG8_IA32_PREFIX          = ENV(CLANG8_BIN)
+DEFINE CLANG8_X64_PREFIX           = ENV(CLANG8_BIN)
+
+DEFINE CLANG8_IA32_TARGET          = -target i686-pc-linux-gnu
+DEFINE CLANG8_X64_TARGET           = -target x86_64-pc-linux-gnu
+
+DEFINE CLANG8_WARNING_OVERRIDES    = -Wno-parentheses-equality -Wno-tautological-compare -Wno-tautological-constant-out-of-range-compare -Wno-empty-body -Wno-unused-const-variable -Wno-varargs -Wno-unknown-warning-option
+DEFINE CLANG8_ALL_CC_FLAGS         = DEF(GCC48_ALL_CC_FLAGS) DEF(CLANG8_WARNING_OVERRIDES) -fno-stack-protector -mms-bitfields -Wno-address -Wno-shift-negative-value -Wno-unknown-pragmas -Wno-incompatible-library-redeclaration -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -msoft-float -mno-implicit-float  -ftrap-function=undefined_behavior_has_been_optimized_away_by_clang -funsigned-char -fno-ms-extensions -Wno-null-dereference
+
+###########################
+# CLANG8 IA32 definitions
+###########################
+*_CLANG8_IA32_OBJCOPY_PATH         = objcopy
+*_CLANG8_IA32_CC_PATH              = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_SLINK_PATH           = DEF(CLANG8_IA32_PREFIX)llvm-ar
+*_CLANG8_IA32_DLINK_PATH           = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_ASLDLINK_PATH        = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_ASM_PATH             = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_PP_PATH              = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_VFRPP_PATH           = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_ASLCC_PATH           = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_ASLPP_PATH           = DEF(CLANG8_IA32_PREFIX)clang
+*_CLANG8_IA32_RC_PATH              = objcopy
+
+*_CLANG8_IA32_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m32 -fno-lto DEF(CLANG8_IA32_TARGET)
+*_CLANG8_IA32_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_i386
+*_CLANG8_IA32_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m32 -march=i386 DEF(CLANG8_IA32_TARGET)
+*_CLANG8_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+*_CLANG8_IA32_OBJCOPY_FLAGS        =
+*_CLANG8_IA32_NASM_FLAGS           = -f elf32
+*_CLANG8_IA32_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(CLANG8_IA32_TARGET)
+*_CLANG8_IA32_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(CLANG8_IA32_TARGET)
+*_CLANG8_IA32_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(CLANG8_IA32_TARGET)
+
+DEBUG_CLANG8_IA32_CC_FLAGS         = DEF(CLANG8_ALL_CC_FLAGS) -m32 -Oz -flto -march=i586 DEF(CLANG8_IA32_TARGET) -g
+DEBUG_CLANG8_IA32_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_i386 -Wl,--oformat=elf32-i386
+DEBUG_CLANG8_IA32_DLINK2_FLAGS     = DEF(GCC5_IA32_DLINK2_FLAGS) -O3
+
+RELEASE_CLANG8_IA32_CC_FLAGS       = DEF(CLANG8_ALL_CC_FLAGS) -m32 -Oz -flto -march=i586 DEF(CLANG8_IA32_TARGET)
+RELEASE_CLANG8_IA32_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_i386 -Wl,--oformat=elf32-i386
+RELEASE_CLANG8_IA32_DLINK2_FLAGS   = DEF(GCC5_IA32_DLINK2_FLAGS) -O3
+
+NOOPT_CLANG8_IA32_CC_FLAGS         = DEF(CLANG8_ALL_CC_FLAGS) -m32 -O0 -march=i586 DEF(CLANG8_IA32_TARGET) -g
+NOOPT_CLANG8_IA32_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -Wl,-O0 -Wl,-melf_i386 -Wl,--oformat=elf32-i386
+NOOPT_CLANG8_IA32_DLINK2_FLAGS     = DEF(GCC5_IA32_DLINK2_FLAGS) -O0
+
+##########################
+# CLANG8 X64 definitions
+##########################
+*_CLANG8_X64_OBJCOPY_PATH         = objcopy
+*_CLANG8_X64_CC_PATH              = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_SLINK_PATH           = DEF(CLANG8_X64_PREFIX)llvm-ar
+*_CLANG8_X64_DLINK_PATH           = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_ASLDLINK_PATH        = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_ASM_PATH             = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_PP_PATH              = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_VFRPP_PATH           = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_ASLCC_PATH           = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_ASLPP_PATH           = DEF(CLANG8_X64_PREFIX)clang
+*_CLANG8_X64_RC_PATH              = objcopy
+
+*_CLANG8_X64_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m64 -fno-lto DEF(CLANG8_X64_TARGET)
+*_CLANG8_X64_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64
+*_CLANG8_X64_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m64 DEF(CLANG8_X64_TARGET)
+*_CLANG8_X64_RC_FLAGS             = DEF(GCC_X64_RC_FLAGS)
+*_CLANG8_X64_OBJCOPY_FLAGS        =
+*_CLANG8_X64_NASM_FLAGS           = -f elf64
+*_CLANG8_X64_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(CLANG8_X64_TARGET)
+*_CLANG8_X64_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(CLANG8_X64_TARGET)
+*_CLANG8_X64_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(CLANG8_X64_TARGET)
+
+DEBUG_CLANG8_X64_CC_FLAGS         = DEF(CLANG8_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -fpie -Oz -flto DEF(CLANG8_X64_TARGET) -g
+DEBUG_CLANG8_X64_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_x86_64 -Wl,--oformat=elf64-x86-64 -Wl,-pie -mcmodel=small
+DEBUG_CLANG8_X64_DLINK2_FLAGS     = DEF(GCC5_X64_DLINK2_FLAGS) -O3
+
+RELEASE_CLANG8_X64_CC_FLAGS       = DEF(CLANG8_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -fpie -Oz -flto DEF(CLANG8_X64_TARGET)
+RELEASE_CLANG8_X64_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_x86_64 -Wl,--oformat=elf64-x86-64 -Wl,-pie -mcmodel=small
+RELEASE_CLANG8_X64_DLINK2_FLAGS   = DEF(GCC5_X64_DLINK2_FLAGS) -O3
+
+NOOPT_CLANG8_X64_CC_FLAGS         = DEF(CLANG8_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -fpie -O0 DEF(CLANG8_X64_TARGET) -g
+NOOPT_CLANG8_X64_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -Wl,-O0 -Wl,-melf_x86_64 -Wl,--oformat=elf64-x86-64 -Wl,-pie -mcmodel=small
+NOOPT_CLANG8_X64_DLINK2_FLAGS     = DEF(GCC5_X64_DLINK2_FLAGS) -O0
+
+####################################################################################
+#
+# LIBFUZZER - This configuration is used to compile under Linux to produce
+#  PE/COFF binaries using LLVM/Clang 8 with Link Time Optimization enabled
+#
+####################################################################################
+*_LIBFUZZER_*_*_FAMILY                = GCC
+*_LIBFUZZER_*_MAKE_PATH               = make
+*_LIBFUZZER_*_*_DLL                   = ENV(LIBFUZZER_DLL)
+*_LIBFUZZER_*_ASL_PATH                = DEF(UNIX_IASL_BIN)
+
+*_LIBFUZZER_*_APP_FLAGS               =
+*_LIBFUZZER_*_ASL_FLAGS               = DEF(IASL_FLAGS)
+*_LIBFUZZER_*_ASL_OUTFLAGS            = DEF(IASL_OUTFLAGS)
+
+DEFINE LIBFUZZER_IA32_PREFIX          = ENV(LIBFUZZER_BIN)
+DEFINE LIBFUZZER_X64_PREFIX           = ENV(LIBFUZZER_BIN)
+
+DEFINE LIBFUZZER_IA32_TARGET          = -target i686-pc-linux-gnu
+DEFINE LIBFUZZER_X64_TARGET           = -target x86_64-pc-linux-gnu
+
+DEFINE LIBFUZZER_WARNING_OVERRIDES    = -Wno-parentheses-equality -Wno-tautological-compare -Wno-tautological-constant-out-of-range-compare -Wno-empty-body -Wno-unused-const-variable -Wno-varargs -Wno-unknown-warning-option
+DEFINE LIBFUZZER_ALL_CC_FLAGS         = DEF(GCC48_ALL_CC_FLAGS) DEF(LIBFUZZER_WARNING_OVERRIDES) -fno-stack-protector -mms-bitfields -Wno-address -Wno-shift-negative-value -Wno-unknown-pragmas -Wno-incompatible-library-redeclaration -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -msoft-float -mno-implicit-float  -ftrap-function=undefined_behavior_has_been_optimized_away_by_clang -funsigned-char -fno-ms-extensions -Wno-null-dereference
+
+###########################
+# LIBFUZZER IA32 definitions
+###########################
+*_LIBFUZZER_IA32_OBJCOPY_PATH         = objcopy
+*_LIBFUZZER_IA32_CC_PATH              = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_SLINK_PATH           = DEF(LIBFUZZER_IA32_PREFIX)llvm-ar
+*_LIBFUZZER_IA32_DLINK_PATH           = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_ASLDLINK_PATH        = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_ASM_PATH             = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_PP_PATH              = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_VFRPP_PATH           = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_ASLCC_PATH           = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_ASLPP_PATH           = DEF(LIBFUZZER_IA32_PREFIX)clang
+*_LIBFUZZER_IA32_RC_PATH              = objcopy
+
+*_LIBFUZZER_IA32_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m32 -fno-lto DEF(LIBFUZZER_IA32_TARGET)
+*_LIBFUZZER_IA32_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_i386
+*_LIBFUZZER_IA32_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m32 -march=i386 DEF(LIBFUZZER_IA32_TARGET)
+*_LIBFUZZER_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+*_LIBFUZZER_IA32_OBJCOPY_FLAGS        =
+*_LIBFUZZER_IA32_NASM_FLAGS           = -f elf32
+*_LIBFUZZER_IA32_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(LIBFUZZER_IA32_TARGET)
+*_LIBFUZZER_IA32_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(LIBFUZZER_IA32_TARGET)
+*_LIBFUZZER_IA32_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(LIBFUZZER_IA32_TARGET)
+
+DEBUG_LIBFUZZER_IA32_CC_FLAGS         = DEF(LIBFUZZER_ALL_CC_FLAGS) -m32 -Oz -flto -march=i586 DEF(LIBFUZZER_IA32_TARGET) -g
+DEBUG_LIBFUZZER_IA32_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_i386 -Wl,--oformat=elf32-i386
+DEBUG_LIBFUZZER_IA32_DLINK2_FLAGS     = DEF(GCC5_IA32_DLINK2_FLAGS) -O3
+
+RELEASE_LIBFUZZER_IA32_CC_FLAGS       = DEF(LIBFUZZER_ALL_CC_FLAGS) -m32 -Oz -flto -march=i586 DEF(LIBFUZZER_IA32_TARGET)
+RELEASE_LIBFUZZER_IA32_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_i386 -Wl,--oformat=elf32-i386
+RELEASE_LIBFUZZER_IA32_DLINK2_FLAGS   = DEF(GCC5_IA32_DLINK2_FLAGS) -O3
+
+NOOPT_LIBFUZZER_IA32_CC_FLAGS         = DEF(LIBFUZZER_ALL_CC_FLAGS) -m32 -O0 -march=i586 DEF(LIBFUZZER_IA32_TARGET) -g
+NOOPT_LIBFUZZER_IA32_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -Wl,-O0 -Wl,-melf_i386 -Wl,--oformat=elf32-i386
+NOOPT_LIBFUZZER_IA32_DLINK2_FLAGS     = DEF(GCC5_IA32_DLINK2_FLAGS) -O0
+
+##########################
+# LIBFUZZER X64 definitions
+##########################
+*_LIBFUZZER_X64_OBJCOPY_PATH         = objcopy
+*_LIBFUZZER_X64_CC_PATH              = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_SLINK_PATH           = DEF(LIBFUZZER_X64_PREFIX)llvm-ar
+*_LIBFUZZER_X64_DLINK_PATH           = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_ASLDLINK_PATH        = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_ASM_PATH             = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_PP_PATH              = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_VFRPP_PATH           = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_ASLCC_PATH           = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_ASLPP_PATH           = DEF(LIBFUZZER_X64_PREFIX)clang
+*_LIBFUZZER_X64_RC_PATH              = objcopy
+
+*_LIBFUZZER_X64_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m64 -fno-lto DEF(LIBFUZZER_X64_TARGET)
+*_LIBFUZZER_X64_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64
+*_LIBFUZZER_X64_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m64 DEF(LIBFUZZER_X64_TARGET)
+*_LIBFUZZER_X64_RC_FLAGS             = DEF(GCC_X64_RC_FLAGS)
+*_LIBFUZZER_X64_OBJCOPY_FLAGS        =
+*_LIBFUZZER_X64_NASM_FLAGS           = -f elf64
+*_LIBFUZZER_X64_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(LIBFUZZER_X64_TARGET)
+*_LIBFUZZER_X64_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(LIBFUZZER_X64_TARGET)
+*_LIBFUZZER_X64_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(LIBFUZZER_X64_TARGET)
+
+DEBUG_LIBFUZZER_X64_CC_FLAGS         = DEF(LIBFUZZER_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -fpie -Oz -flto DEF(LIBFUZZER_X64_TARGET) -g
+DEBUG_LIBFUZZER_X64_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_x86_64 -Wl,--oformat=elf64-x86-64 -Wl,-pie -mcmodel=small
+DEBUG_LIBFUZZER_X64_DLINK2_FLAGS     = DEF(GCC5_X64_DLINK2_FLAGS) -O3
+
+RELEASE_LIBFUZZER_X64_CC_FLAGS       = DEF(LIBFUZZER_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -fpie -Oz -flto DEF(LIBFUZZER_X64_TARGET)
+RELEASE_LIBFUZZER_X64_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Wl,-Oz -Wl,-melf_x86_64 -Wl,--oformat=elf64-x86-64 -Wl,-pie -mcmodel=small
+RELEASE_LIBFUZZER_X64_DLINK2_FLAGS   = DEF(GCC5_X64_DLINK2_FLAGS) -O3
+
+NOOPT_LIBFUZZER_X64_CC_FLAGS         = DEF(LIBFUZZER_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -fpie -O0 DEF(LIBFUZZER_X64_TARGET) -g
+NOOPT_LIBFUZZER_X64_DLINK_FLAGS      = DEF(GCC5_IA32_X64_DLINK_FLAGS) -Wl,-O0 -Wl,-melf_x86_64 -Wl,--oformat=elf64-x86-64 -Wl,-pie -mcmodel=small
+NOOPT_LIBFUZZER_X64_DLINK2_FLAGS     = DEF(GCC5_X64_DLINK2_FLAGS) -O0
+
+####################################################################################
+#
+# Clang Win - This configuration is used to compile under Windows to produce
+#  PE/COFF binaries using LLVM/Clang with Link Time Optimization enabled
+#
+####################################################################################
+*_CLANGWIN_*_*_FAMILY                = GCC
+*_CLANGWIN_*_*_BUILDRULEFAMILY       = CLANGWIN
+*_CLANGWIN_*_MAKE_PATH               = nmake
+*_CLANGWIN_*_*_DLL                   = ENV(CLANGWIN_DLL)
+*_CLANGWIN_*_ASL_PATH                = DEF(DEFAULT_WIN_ASL_BIN)
+
+*_CLANGWIN_*_APP_FLAGS               =
+*_CLANGWIN_*_ASL_FLAGS               = DEF(DEFAULT_WIN_ASL_FLAGS)
+*_CLANGWIN_*_ASL_OUTFLAGS            = DEF(DEFAULT_WIN_ASL_OUTFLAGS)
+
+DEFINE CLANGWIN_IA32_PREFIX          = ENV(CLANGWIN_BIN)
+DEFINE CLANGWIN_X64_PREFIX           = ENV(CLANGWIN_BIN)
+
+DEFINE CLANGWIN_IA32_TARGET          = -target i686-pc-windows-msvc
+DEFINE CLANGWIN_X64_TARGET           = -target x86_64-pc-windows-msvc
+
+DEFINE CLANGWIN_WARNING_OVERRIDES    = -Wno-parentheses-equality -Wno-tautological-compare -Wno-tautological-constant-out-of-range-compare -Wno-empty-body -Wno-unused-const-variable -Wno-varargs -Wno-unknown-warning-option
+DEFINE CLANGWIN_ALL_CC_FLAGS         = DEF(GCC48_ALL_CC_FLAGS) DEF(CLANGWIN_WARNING_OVERRIDES) -fno-stack-protector -mms-bitfields -Wno-address -Wno-shift-negative-value -Wno-unknown-pragmas -Wno-incompatible-library-redeclaration -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -msoft-float -mno-implicit-float  -ftrap-function=undefined_behavior_has_been_optimized_away_by_clang -funsigned-char -fno-ms-extensions -Wno-null-dereference -Wno-microsoft -fms-compatibility
+
+###########################
+# CLANGWIN IA32 definitions
+###########################
+*_CLANGWIN_IA32_CC_PATH              = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_SLINK_PATH           = lib.exe
+*_CLANGWIN_IA32_DLINK_PATH           = link.exe
+*_CLANGWIN_IA32_ASLDLINK_PATH        = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_ASM_PATH             = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_PP_PATH              = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_VFRPP_PATH           = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_ASLCC_PATH           = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_ASLPP_PATH           = DEF(CLANGWIN_IA32_PREFIX)clang
+*_CLANGWIN_IA32_RC_PATH              = rc.exe
+
+*_CLANGWIN_IA32_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m32 -fno-lto DEF(CLANGWIN_IA32_TARGET)
+*_CLANGWIN_IA32_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_i386
+*_CLANGWIN_IA32_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m32 -march=i386 DEF(CLANGWIN_IA32_TARGET)
+*_CLANGWIN_IA32_OBJCOPY_FLAGS        =
+*_CLANGWIN_IA32_NASM_FLAGS           = -f win32
+*_CLANGWIN_IA32_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(CLANGWIN_IA32_TARGET)
+*_CLANGWIN_IA32_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(CLANGWIN_IA32_TARGET)
+*_CLANGWIN_IA32_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(CLANGWIN_IA32_TARGET)
+
+DEBUG_CLANGWIN_IA32_CC_FLAGS         = DEF(CLANGWIN_ALL_CC_FLAGS) -m32 -Oz -march=i586 DEF(CLANGWIN_IA32_TARGET) -g
+DEBUG_CLANGWIN_IA32_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /MACHINE:X86 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+DEBUG_CLANGWIN_IA32_DLINK2_FLAGS     =
+
+RELEASE_CLANGWIN_IA32_CC_FLAGS       = DEF(CLANGWIN_ALL_CC_FLAGS) -m32 -Oz -march=i586 DEF(CLANGWIN_IA32_TARGET)
+RELEASE_CLANGWIN_IA32_DLINK_FLAGS    = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /IGNORE:4254 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /MACHINE:X86 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /MERGE:.rdata=.data
+RELEASE_CLANGWIN_IA32_DLINK2_FLAGS   = 
+
+NOOPT_CLANGWIN_IA32_CC_FLAGS         = DEF(CLANGWIN_ALL_CC_FLAGS) -m32 -O0 -march=i586 DEF(CLANGWIN_IA32_TARGET) -g
+NOOPT_CLANGWIN_IA32_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /MACHINE:X86 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+NOOPT_CLANGWIN_IA32_DLINK2_FLAGS     = 
+
+##########################
+# CLANGWIN X64 definitions
+##########################
+*_CLANGWIN_X64_CC_PATH              = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_SLINK_PATH           = lib.exe
+*_CLANGWIN_X64_DLINK_PATH           = link.exe
+*_CLANGWIN_X64_ASLDLINK_PATH        = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_ASM_PATH             = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_PP_PATH              = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_VFRPP_PATH           = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_ASLCC_PATH           = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_ASLPP_PATH           = DEF(CLANGWIN_X64_PREFIX)clang
+*_CLANGWIN_X64_RC_PATH              = rc.exe
+
+*_CLANGWIN_X64_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m64 -fno-lto DEF(CLANGWIN_X64_TARGET)
+*_CLANGWIN_X64_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64
+*_CLANGWIN_X64_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m64 DEF(CLANGWIN_X64_TARGET)
+*_CLANGWIN_X64_OBJCOPY_FLAGS        =
+*_CLANGWIN_X64_NASM_FLAGS           = -f win64
+*_CLANGWIN_X64_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(CLANGWIN_X64_TARGET)
+*_CLANGWIN_X64_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(CLANGWIN_X64_TARGET)
+*_CLANGWIN_X64_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(CLANGWIN_X64_TARGET)
+
+DEBUG_CLANGWIN_X64_CC_FLAGS         = DEF(CLANGWIN_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -Oz DEF(CLANGWIN_X64_TARGET) -g
+DEBUG_CLANGWIN_X64_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /Machine:X64 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+DEBUG_CLANGWIN_X64_DLINK2_FLAGS     = 
+
+RELEASE_CLANGWIN_X64_CC_FLAGS       = DEF(CLANGWIN_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -Oz DEF(CLANGWIN_X64_TARGET)
+RELEASE_CLANGWIN_X64_DLINK_FLAGS    = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /IGNORE:4254 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /Machine:X64 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /MERGE:.rdata=.data
+RELEASE_CLANGWIN_X64_DLINK2_FLAGS   = 
+
+NOOPT_CLANGWIN_X64_CC_FLAGS         = DEF(CLANGWIN_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -O0 DEF(CLANGWIN_X64_TARGET) -g
+NOOPT_CLANGWIN_X64_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /Machine:X64 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+NOOPT_CLANGWIN_X64_DLINK2_FLAGS     = 
+
+####################################################################################
+#
+# LIBFUZZER Win - This configuration is used to compile under Windows to produce
+#  PE/COFF binaries using LLVM/Clang with Link Time Optimization enabled
+#
+####################################################################################
+*_LIBFUZZERWIN_*_*_FAMILY                = GCC
+*_LIBFUZZERWIN_*_*_BUILDRULEFAMILY       = CLANGWIN
+*_LIBFUZZERWIN_*_MAKE_PATH               = nmake
+*_LIBFUZZERWIN_*_*_DLL                   = ENV(LIBFUZZERWIN_DLL)
+*_LIBFUZZERWIN_*_ASL_PATH                = DEF(DEFAULT_WIN_ASL_BIN)
+
+*_LIBFUZZERWIN_*_APP_FLAGS               =
+*_LIBFUZZERWIN_*_ASL_FLAGS               = DEF(DEFAULT_WIN_ASL_FLAGS)
+*_LIBFUZZERWIN_*_ASL_OUTFLAGS            = DEF(DEFAULT_WIN_ASL_OUTFLAGS)
+
+DEFINE LIBFUZZERWIN_IA32_PREFIX          = ENV(LIBFUZZERWIN_BIN)
+DEFINE LIBFUZZERWIN_X64_PREFIX           = ENV(LIBFUZZERWIN_BIN)
+
+DEFINE LIBFUZZERWIN_IA32_TARGET          = -target i686-pc-windows-msvc
+DEFINE LIBFUZZERWIN_X64_TARGET           = -target x86_64-pc-windows-msvc
+
+DEFINE LIBFUZZERWIN_WARNING_OVERRIDES    = -Wno-parentheses-equality -Wno-tautological-compare -Wno-tautological-constant-out-of-range-compare -Wno-empty-body -Wno-unused-const-variable -Wno-varargs -Wno-unknown-warning-option
+DEFINE LIBFUZZERWIN_ALL_CC_FLAGS         = DEF(GCC48_ALL_CC_FLAGS) DEF(LIBFUZZERWIN_WARNING_OVERRIDES) -fno-stack-protector -mms-bitfields -Wno-address -Wno-shift-negative-value -Wno-unknown-pragmas -Wno-incompatible-library-redeclaration -fno-asynchronous-unwind-tables -mno-sse -mno-mmx -msoft-float -mno-implicit-float  -ftrap-function=undefined_behavior_has_been_optimized_away_by_LIBFUZZER -funsigned-char -fno-ms-extensions -Wno-null-dereference -Wno-microsoft -fms-compatibility
+
+###########################
+# LIBFUZZERWIN IA32 definitions
+###########################
+*_LIBFUZZERWIN_IA32_CC_PATH              = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_SLINK_PATH           = lib.exe
+*_LIBFUZZERWIN_IA32_DLINK_PATH           = link.exe
+*_LIBFUZZERWIN_IA32_ASLDLINK_PATH        = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_ASM_PATH             = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_PP_PATH              = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_VFRPP_PATH           = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_ASLCC_PATH           = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_ASLPP_PATH           = DEF(LIBFUZZERWIN_IA32_PREFIX)clang
+*_LIBFUZZERWIN_IA32_RC_PATH              = rc.exe
+
+*_LIBFUZZERWIN_IA32_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m32 -fno-lto DEF(LIBFUZZERWIN_IA32_TARGET)
+*_LIBFUZZERWIN_IA32_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_i386
+*_LIBFUZZERWIN_IA32_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m32 -march=i386 DEF(LIBFUZZERWIN_IA32_TARGET)
+*_LIBFUZZERWIN_IA32_OBJCOPY_FLAGS        =
+*_LIBFUZZERWIN_IA32_NASM_FLAGS           = -f win32
+*_LIBFUZZERWIN_IA32_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(LIBFUZZERWIN_IA32_TARGET)
+*_LIBFUZZERWIN_IA32_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(LIBFUZZERWIN_IA32_TARGET)
+*_LIBFUZZERWIN_IA32_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(LIBFUZZERWIN_IA32_TARGET)
+
+DEBUG_LIBFUZZERWIN_IA32_CC_FLAGS         = DEF(LIBFUZZERWIN_ALL_CC_FLAGS) -m32 -Oz -march=i586 DEF(LIBFUZZERWIN_IA32_TARGET) -g
+DEBUG_LIBFUZZERWIN_IA32_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /MACHINE:X86 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+DEBUG_LIBFUZZERWIN_IA32_DLINK2_FLAGS     =
+
+RELEASE_LIBFUZZERWIN_IA32_CC_FLAGS       = DEF(LIBFUZZERWIN_ALL_CC_FLAGS) -m32 -Oz -march=i586 DEF(LIBFUZZERWIN_IA32_TARGET)
+RELEASE_LIBFUZZERWIN_IA32_DLINK_FLAGS    = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /IGNORE:4254 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /MACHINE:X86 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /MERGE:.rdata=.data
+RELEASE_LIBFUZZERWIN_IA32_DLINK2_FLAGS   = 
+
+NOOPT_LIBFUZZERWIN_IA32_CC_FLAGS         = DEF(LIBFUZZERWIN_ALL_CC_FLAGS) -m32 -O0 -march=i586 DEF(LIBFUZZERWIN_IA32_TARGET) -g
+NOOPT_LIBFUZZERWIN_IA32_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /MACHINE:X86 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+NOOPT_LIBFUZZERWIN_IA32_DLINK2_FLAGS     = 
+
+##########################
+# LIBFUZZERWIN X64 definitions
+##########################
+*_LIBFUZZERWIN_X64_CC_PATH              = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_SLINK_PATH           = lib.exe
+*_LIBFUZZERWIN_X64_DLINK_PATH           = link.exe
+*_LIBFUZZERWIN_X64_ASLDLINK_PATH        = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_ASM_PATH             = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_PP_PATH              = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_VFRPP_PATH           = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_ASLCC_PATH           = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_ASLPP_PATH           = DEF(LIBFUZZERWIN_X64_PREFIX)clang
+*_LIBFUZZERWIN_X64_RC_PATH              = rc.exe
+
+*_LIBFUZZERWIN_X64_ASLCC_FLAGS          = DEF(GCC_ASLCC_FLAGS) -m64 -fno-lto DEF(LIBFUZZERWIN_X64_TARGET)
+*_LIBFUZZERWIN_X64_ASLDLINK_FLAGS       = DEF(GCC5_IA32_X64_ASLDLINK_FLAGS) -Wl,-m,elf_x86_64
+*_LIBFUZZERWIN_X64_ASM_FLAGS            = DEF(GCC5_ASM_FLAGS) -m64 DEF(LIBFUZZERWIN_X64_TARGET)
+*_LIBFUZZERWIN_X64_OBJCOPY_FLAGS        =
+*_LIBFUZZERWIN_X64_NASM_FLAGS           = -f win64
+*_LIBFUZZERWIN_X64_PP_FLAGS             = DEF(GCC_PP_FLAGS) DEF(LIBFUZZERWIN_X64_TARGET)
+*_LIBFUZZERWIN_X64_ASLPP_FLAGS          = DEF(GCC_ASLPP_FLAGS) DEF(LIBFUZZERWIN_X64_TARGET)
+*_LIBFUZZERWIN_X64_VFRPP_FLAGS          = DEF(GCC_VFRPP_FLAGS) DEF(LIBFUZZERWIN_X64_TARGET)
+
+DEBUG_LIBFUZZERWIN_X64_CC_FLAGS         = DEF(LIBFUZZERWIN_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -Oz DEF(LIBFUZZERWIN_X64_TARGET) -g
+DEBUG_LIBFUZZERWIN_X64_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /Machine:X64 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+DEBUG_LIBFUZZERWIN_X64_DLINK2_FLAGS     = 
+
+RELEASE_LIBFUZZERWIN_X64_CC_FLAGS       = DEF(LIBFUZZERWIN_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -Oz DEF(LIBFUZZERWIN_X64_TARGET)
+RELEASE_LIBFUZZERWIN_X64_DLINK_FLAGS    = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /IGNORE:4254 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /Machine:X64 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /MERGE:.rdata=.data
+RELEASE_LIBFUZZERWIN_X64_DLINK2_FLAGS   = 
+
+NOOPT_LIBFUZZERWIN_X64_CC_FLAGS         = DEF(LIBFUZZERWIN_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -O0 DEF(LIBFUZZERWIN_X64_TARGET) -g
+NOOPT_LIBFUZZERWIN_X64_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /MAP /ALIGN:32 /SECTION:.xdata,D /SECTION:.pdata,D /Machine:X64 /LTCG /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DRIVER /DEBUG
+NOOPT_LIBFUZZERWIN_X64_DLINK2_FLAGS     = 

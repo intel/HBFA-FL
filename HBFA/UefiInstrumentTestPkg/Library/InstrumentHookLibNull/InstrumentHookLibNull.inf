@@ -1,0 +1,29 @@
+## @file
+#
+# Copyright (c) 2017, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = InstrumentHookLibNull
+  FILE_GUID                      = B3044F07-E1C8-412B-ADD5-AD93DB330966
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = InstrumentHookLib
+
+[Sources]
+  InstrumentHookLibNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiInstrumentTestPkg/UefiInstrumentTestPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = /Od /GL-
+  GCC:*_*_*_CC_FLAGS = -O0

@@ -1,0 +1,40 @@
+## @file
+# Component description file for TestUdf module.
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = InstrumentHookLibTestUdf
+  FILE_GUID                      = F9BE464E-3E19-4BE9-B6F1-D560A0031CAD
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = InstrumentHookLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  InstrumentHookLibTestUdf.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiInstrumentTestPkg/UefiInstrumentTestPkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  DebugLib
+  IniParsingLib
+
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = /Od /GL-
+  GCC:*_*_*_CC_FLAGS = -O0

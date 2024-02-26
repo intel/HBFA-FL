@@ -1,0 +1,47 @@
+## @file
+# Instance of UEFI Library.
+#
+# The UEFI Library provides functions and macros that simplify the development of
+#  UEFI Drivers and UEFI Applications.  These functions and macros help manage EFI
+#  events, build simple locks utilizing EFI Task Priority Levels (TPLs), install
+#  EFI Driver Model related protocols, manage Unicode string tables for UEFI Drivers,
+#  and print messages on the console output and standard error devices.
+#
+# Copyright (c) 2007 - 2018, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = UefiLibHost
+  FILE_GUID                      = 3A6DF65D-806E-49FF-9CE5-074F49028378
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = UefiLib
+
+
+#
+#  VALID_ARCHITECTURES           = IA32 X64 EBC
+#
+
+[Sources]
+  UefiDriverModel.c
+  UefiLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+
+[Protocols]
+  gEfiComponentNameProtocolGuid  | NOT gEfiMdePkgTokenSpaceGuid.PcdComponentNameDisable   ## SOMETIMES_PRODUCES # User chooses to produce it
+  gEfiComponentName2ProtocolGuid | NOT gEfiMdePkgTokenSpaceGuid.PcdComponentName2Disable  ## SOMETIMES_PRODUCES # User chooses to produce it
+
+[FeaturePcd]
+  gEfiMdePkgTokenSpaceGuid.PcdComponentNameDisable        ## CONSUMES
+  gEfiMdePkgTokenSpaceGuid.PcdComponentName2Disable       ## CONSUMES

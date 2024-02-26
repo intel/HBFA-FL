@@ -1,0 +1,15 @@
+## @file  UefiHostFuzzTestCasePkg.dec
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = UefiHostFuzzTestCasePkg
+  PACKAGE_GUID                   = C8C2F32C-35BC-4D74-9467-178BC9325EBE
+  PACKAGE_VERSION                = 0.11
+
+[Includes.common]
+  TestStub/Include

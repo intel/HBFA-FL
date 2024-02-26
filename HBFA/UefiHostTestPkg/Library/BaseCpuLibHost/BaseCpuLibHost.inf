@@ -1,0 +1,25 @@
+## @file
+#  Instance of CPU Library for various architecture.
+#
+#  Copyright (c) 2007 - 2018, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BaseCpuLibHost
+  FILE_GUID                      = 197E7CD0-2C4A-4AF1-A84D-DCAC0A1D7EF8
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = CpuLib
+
+[Sources]
+  BaseCpuLibHost.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+

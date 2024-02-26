@@ -1,0 +1,39 @@
+## @file
+# Component description file for TestPeiUsb module.
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TestPeiUsb
+  FILE_GUID                      = E47055D6-D042-4846-83AE-A7AE8AA5D581
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  TestPeiUsb.c
+  MdeModulePkg/Bus/Usb/UsbBusPei/UsbPeim.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiHostTestPkg/UefiHostTestPkg.dec
+  UefiHostFuzzTestCasePkg/UefiHostFuzzTestCasePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  DebugLib
+  TimerLib
+  UsbIoPpiStubLib
+  ToolChainHarnessLib

@@ -1,0 +1,16 @@
+## @file
+#
+# Copyright (c) 2018, Intel Corporation. All rights reserved.<BR>
+#
+#    SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = UefiInstrumentTestPkg
+  PACKAGE_GUID                   = DA14F9B4-A294-4171-91AC-C81E39D7153B
+  PACKAGE_VERSION                = 0.11
+
+[Includes]
+  Include
