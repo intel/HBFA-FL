@@ -322,6 +322,8 @@ def updateBuildFlags(SanitizerFlags, buildProfraw):
 
         profrawCcCovFlag = rb'-fprofile-instr-generate -fcoverage-mapping'
         profrawLdCovFlag = rb'-fprofile-instr-generate -fcoverage-mapping'
+        LIB_FUZZING_ENGINE = os.getenv('LIB_FUZZING_ENGINE')
+        CXXFLAGS = os.getenv('CXXFLAGS')
 
         # Patch with appropriate coverage and sanitizer
         if buildProfraw:
@@ -354,20 +356,26 @@ def updateBuildFlags(SanitizerFlags, buildProfraw):
                          rb'GCC:*_LIBFUZZER_*_CC_FLAGS = '
                          rb'"-DTEST_WITH_LIBFUZZER=TRUE" -O1'
                          rb' -fsanitize=fuzzer' +
-                         SanitizerFlags.encode(), raw)
+                         SanitizerFlags.encode() +
+                         rb' ' +
+                         CXXFLAGS.encode(), raw)
             raw = re.sub(rb'GCC:\*_LIBFUZZER_\*_DLINK2_FLAGS = -fsanitize='
                          rb'fuzzer,address',
                          rb'GCC:*_LIBFUZZER_*_DLINK2_FLAGS = -fsanitize=fuzzer'
-                         + SanitizerFlags.encode(), raw)
+                         + SanitizerFlags.encode() +
+                         rb' ' +
+                         LIB_FUZZING_ENGINE.encode(), raw)
             raw = re.sub(rb'GCC:\*_CLANG8_\*_CC_FLAGS = -O1 -fsanitize=address'
                          rb' -fprofile-arcs -ftest-coverage',
                          rb'GCC:*_CLANG8_*_CC_FLAGS = -O1 -fsanitize='
                          + SanitizerFlags[1::].encode() +
-                         rb' -fprofile-arcs -ftest-coverage', raw)
+                         rb' -fprofile-arcs -ftest-coverage ' +
+                         CXXFLAGS.encode(), raw)
             raw = re.sub(rb'GCC:\*_CLANG8_\*_DLINK2_FLAGS = -fsanitize=address'
                          rb' --coverage', rb'GCC:*_CLANG8_*_DLINK2_FLAGS = '
                          rb'-fsanitize=' + SanitizerFlags[1::].encode() +
-                         rb' --coverage', raw)
+                         rb' --coverage ' +
+                         LIB_FUZZING_ENGINE.encode(), raw)
 
         # Write out file
         fws = open(OutputBuildOptionFile, 'wb')
