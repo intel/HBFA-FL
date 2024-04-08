@@ -8,14 +8,12 @@ A number of fuzzing test harness cases are included in HBFA-FL. These, test-harn
 | TestBmpSupportLib | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/BaseBmpSupportLib/TestBmpSupportLib.{c,inf} |
 | TestPartition | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/PartitionDxe/TestPartition.{c,inf} |
 | TestUdf | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/UdfDxe/TestUdf.{c,inf} |
-| TestUsb | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusDxe/TestUsb.{c,inf} |
 | TestPeiUsb | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.{c,inf} |
 | TestVariableSmm | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Variable/RuntimeDxe/TestVariableSmm.{c,inf} |
 | TestFmpAuthenticationLibPkcs7 | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibPkcs7/TestFmpAuthenticationLibPkcs7.{c,inf} |
 | TestFmpAuthenticationLibRsa2048Sha256 | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibRsa2048Sha256/TestFmpAuthenticationLibRsa2048Sha256.{c,inf} |
 | TestCapsulePei | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/CapsulePei/Common/TestCapsulePei.{c,inf} |
 | TestFileName | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/UdfDxe/TestFileName.{c,inf} |
-| TestPeiGpt | HBFA/UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/TestPeiGpt.{c,inf} |
 | TestValidateTdxCfv | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/EmuVariableFvbRuntimeDxe/TestValidateTdxCfv.{c,inf} |
 | TestTcg2MeasureGptTable | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasureGptTable.{c,inf} |
 | TestTcg2MeasurePeImage | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasurePeImage.{c,inf} |
@@ -23,7 +21,6 @@ A number of fuzzing test harness cases are included in HBFA-FL. These, test-harn
 | TestVirtio10Blk | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/Virtio10BlkDxe/TestVirtio10Blk.{c,inf} |
 | TestVirtioBlk | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioBlkDxe/TestVirtioBlk.{c,inf} |
 | TestVirtioBlkReadWrite | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioBlkReadWrite/TestVirtioBlkReadWrite.{c,inf} |
-| TestIdentifyAtaDevice | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/TestIdentifyAtaDevice.{c,inf} |
 
 Additionally, many of the test-cases make use of stub-libraries to simulate responses from function call that would interact with hardware. These libraries are included in HBFA in the relative directory:
 
@@ -47,7 +44,6 @@ HBFA-FL includes some seed corpus for the included test-cases. The relative loca
 | TestBmpSupportLib | HBFA/UefiHostFuzzTestCasePkg/Seed/BMP/Raw
 | TestPartition | HBFA/UefiHostFuzzTestCasePkg/Seed/UDF/Raw/Partition
 | TestUdf | HBFA/UefiHostFuzzTestCasePkg/Seed/UDF/Raw/FileSystem
-| TestUsb | HBFA/UefiHostFuzzTestCasePkg/Seed/USB/Raw
 | TestPeiUsb | HBFA/UefiHostFuzzTestCasePkg/Seed/USB/Raw
 | TestDxeCapsuleLibFmp | HBFA/UefiHostFuzzTestCasePkg/Seed/Capsule
 | TestVariableSmm | HBFA/UefiHostFuzzTestCasePkg/Seed/VariableSmm/Raw
@@ -57,7 +53,6 @@ HBFA-FL includes some seed corpus for the included test-cases. The relative loca
 | TestUpdateLockBoxFuzzLength | HBFA/UefiHostFuzzTestCasePkg/Seed/LockBox/Raw
 | TestUpdateLockBoxFuzzOffset | HBFA/UefiHostFuzzTestCasePkg/Seed/LockBox/Raw
 | TestFileName | HBFA/UefiHostFuzzTestCasePkg/Seed/UDF/Raw/FileName
-| TestPeiGpt | HBFA/UefiHostFuzzTestCasePkg/Seed/Gpt/Raw
 
 ## Test-cases presently not included in HBFA-FL
 
