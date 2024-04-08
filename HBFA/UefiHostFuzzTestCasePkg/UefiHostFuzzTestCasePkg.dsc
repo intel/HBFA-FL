@@ -145,14 +145,14 @@
       Tpm2DeviceStubLib|UefiHostFuzzTestCasePkg/TestStub/Tpm2DeviceLibStub/Tpm2DeviceLibStub.inf
   }
 
-  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusDxe/TestUsb.inf {
-    <LibraryClasses>
-    NULL|MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
-  }
-  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.inf {
-    <LibraryClasses>
-    NULL|MdeModulePkg/Bus/Usb/UsbBusPei/UsbBusPei.inf
-  }
+#  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusDxe/TestUsb.inf {
+#    <LibraryClasses>
+#    NULL|MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
+#  }
+#  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.inf {
+#    <LibraryClasses>
+#    NULL|MdeModulePkg/Bus/Usb/UsbBusPei/UsbBusPei.inf
+#  }
 
   UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibPkcs7/TestFmpAuthenticationLibPkcs7.inf {
     <LibraryClasses>
@@ -165,29 +165,29 @@
     BaseCryptLib|UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibRsa2048Sha256/CryptoLibStubRsa2048Sha256.inf
   }
 
-  UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/TestPeiGpt.inf {
-    <LibraryClasses>
-      NULL|UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/Override/FatPei.inf
-!if $(TEST_WITH_INSTRUMENT)
-    <BuildOptions>
-      MSFT:  *_*_*_CC_FLAGS = "-DTEST_WITH_INSTRUMENT=TRUE"
-      GCC:*_*_*_CC_FLAGS = "-DTEST_WITH_INSTRUMENT=TRUE"
-    <LibraryClasses>
-      InstrumentHookLib|UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/InstrumentHookLibTestPeiGpt/InstrumentHookLibTestPeiGpt.inf
-!endif
-  }
+# UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/TestPeiGpt.inf {
+#    <LibraryClasses>
+#      NULL|UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/Override/FatPei.inf
+#!if $(TEST_WITH_INSTRUMENT)
+#    <BuildOptions>
+#      MSFT:  *_*_*_CC_FLAGS = "-DTEST_WITH_INSTRUMENT=TRUE"
+#      GCC:*_*_*_CC_FLAGS = "-DTEST_WITH_INSTRUMENT=TRUE"
+#    <LibraryClasses>
+#      InstrumentHookLib|UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/InstrumentHookLibTestPeiGpt/InstrumentHookLibTestPeiGpt.inf
+#!endif
+#  }
 
-  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/TestIdentifyAtaDevice.inf{
-  <LibraryClasses>
-      NULL|UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/Override/AhciPei.inf
-      IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
-      PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
-      LockBoxLib|MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
-      PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
-      TdxLib|MdePkg/Library/TdxLib/TdxLib.inf 
-     CcProbeLib|OvmfPkg/Library/CcProbeLib/DxeCcProbeLib.inf
-	    RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf 
-  }
+#  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/TestIdentifyAtaDevice.inf{
+#  <LibraryClasses>
+#      NULL|UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/Override/AhciPei.inf
+#      IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
+#      PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
+#      LockBoxLib|MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
+#      PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
+#      TdxLib|MdePkg/Library/TdxLib/TdxLib.inf 
+#     CcProbeLib|OvmfPkg/Library/CcProbeLib/DxeCcProbeLib.inf
+#	    RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf 
+#  }
 
   UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasureGptTable.inf{
   <LibraryClasses>

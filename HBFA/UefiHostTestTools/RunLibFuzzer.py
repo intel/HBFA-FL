@@ -322,8 +322,14 @@ def updateBuildFlags(SanitizerFlags, buildProfraw):
 
         profrawCcCovFlag = rb'-fprofile-instr-generate -fcoverage-mapping'
         profrawLdCovFlag = rb'-fprofile-instr-generate -fcoverage-mapping'
-        LIB_FUZZING_ENGINE = os.getenv('LIB_FUZZING_ENGINE')
-        CXXFLAGS = os.getenv('CXXFLAGS')
+        if os.getenv('LIB_FUZZING_ENGINE') is not None:
+            LIB_FUZZING_ENGINE = os.getenv('LIB_FUZZING_ENGINE')
+        else:
+            LIB_FUZZING_ENGINE = ''
+        if os.getenv('CXXFLAGS') is not None:
+            CXXFLAGS = os.getenv('CXXFLAGS')
+        else:
+            CXXFLAGS = ''
 
         # Patch with appropriate coverage and sanitizer
         if buildProfraw:

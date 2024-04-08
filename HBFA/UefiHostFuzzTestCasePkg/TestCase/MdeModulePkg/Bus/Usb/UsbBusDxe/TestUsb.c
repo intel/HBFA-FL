@@ -60,6 +60,5 @@ RunTestHarness(
   Bus.Usb2Hc = Usb2Hc;
 
   UsbBuildDescTable (&UsbDev);
-}
-
-
+  UsbFreeDevice (&UsbDev);
+  }

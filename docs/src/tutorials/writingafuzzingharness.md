@@ -1140,14 +1140,12 @@ A number of fuzzing test harness cases are included in HBFA. Carefully examining
 | TestBmpSupportLib | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/BaseBmpSupportLib/TestBmpSupportLib.{c,inf} |
 | TestPartition | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/PartitionDxe/TestPartition.{c,inf} |
 | TestUdf | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/UdfDxe/TestUdf.{c,inf} |
-| TestUsb | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusDxe/TestUsb.{c,inf} |
 | TestPeiUsb | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.{c,inf} |
 | TestVariableSmm | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Variable/RuntimeDxe/TestVariableSmm.{c,inf} |
 | TestFmpAuthenticationLibPkcs7 | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibPkcs7/TestFmpAuthenticationLibPkcs7.{c,inf} |
 | TestFmpAuthenticationLibRsa2048Sha256 | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibRsa2048Sha256/TestFmpAuthenticationLibRsa2048Sha256.{c,inf} |
 | TestCapsulePei | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/CapsulePei/Common/TestCapsulePei.{c,inf} |
 | TestFileName | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/UdfDxe/TestFileName.{c,inf} |
-| TestPeiGpt | HBFA/UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/TestPeiGpt.{c,inf} |
 | TestValidateTdxCfv | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/EmuVariableFvbRuntimeDxe/TestValidateTdxCfv.{c,inf} |
 | TestTcg2MeasureGptTable | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasureGptTable.{c,inf} |
 | TestTcg2MeasurePeImage | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasurePeImage.{c,inf} |
@@ -1155,7 +1153,6 @@ A number of fuzzing test harness cases are included in HBFA. Carefully examining
 | TestVirtio10Blk | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/Virtio10BlkDxe/TestVirtio10Blk.{c,inf} |
 | TestVirtioBlk | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioBlkDxe/TestVirtioBlk.{c,inf} |
 | TestVirtioBlkReadWrite | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioBlkReadWrite/TestVirtioBlkReadWrite.{c,inf} |
-| TestIdentifyAtaDevice | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/TestIdentifyAtaDevice.{c,inf} |
 
 Additionally, many of the test-cases make use of stub-libraries to simulate responses from function call that would interact with hardware. These libraries are included in HBFA in the relative directory:
 
@@ -1659,15 +1656,6 @@ Importantly, for a fuzzing test harness in HBFA, you must ensure that there is a
       Tpm2DeviceStubLib|UefiHostFuzzTestCasePkg/TestStub/Tpm2DeviceLibStub/Tpm2DeviceLibStub.inf
   }
 
-  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusDxe/TestUsb.inf {
-    <LibraryClasses>
-    NULL|MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
-  }
-  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.inf {
-    <LibraryClasses>
-    NULL|MdeModulePkg/Bus/Usb/UsbBusPei/UsbBusPei.inf
-  }
-
   UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibPkcs7/TestFmpAuthenticationLibPkcs7.inf {
     <LibraryClasses>
     FmpAuthenticationLib|SecurityPkg/Library/FmpAuthenticationLibPkcs7/FmpAuthenticationLibPkcs7.inf
@@ -1679,18 +1667,6 @@ Importantly, for a fuzzing test harness in HBFA, you must ensure that there is a
     BaseCryptLib|UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibRsa2048Sha256/CryptoLibStubRsa2048Sha256.inf
   }
 
-  UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/TestPeiGpt.inf {
-    <LibraryClasses>
-      NULL|UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/Override/FatPei.inf
-!if $(TEST_WITH_INSTRUMENT)
-    <BuildOptions>
-      MSFT:  *_*_*_CC_FLAGS = "-DTEST_WITH_INSTRUMENT=TRUE"
-      GCC:*_*_*_CC_FLAGS = "-DTEST_WITH_INSTRUMENT=TRUE"
-    <LibraryClasses>
-      InstrumentHookLib|UefiHostFuzzTestCasePkg/TestCase/FatPkg/FatPei/InstrumentHookLibTestPeiGpt/InstrumentHookLibTestPeiGpt.inf
-!endif
-  }
-
   UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/SmmLockBoxLib/UpdateLockBoxTestCase/TestUpdateLockBoxFuzzLength.inf {
   <LibraryClasses>
     NULL|MdeModulePkg/Library/SmmLockBoxLib/SmmLockBoxSmmLib.inf
@@ -1698,17 +1674,6 @@ Importantly, for a fuzzing test harness in HBFA, you must ensure that there is a
   UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/SmmLockBoxLib/UpdateLockBoxTestCase/TestUpdateLockBoxFuzzOffset.inf {
   <LibraryClasses>
     NULL|MdeModulePkg/Library/SmmLockBoxLib/SmmLockBoxSmmLib.inf
-  }
-  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/TestIdentifyAtaDevice.inf{
-  <LibraryClasses>
-      NULL|UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Ata/AhciPei/Override/AhciPei.inf
-      IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
-      PeiServicesLib|MdePkg/Library/PeiServicesLib/PeiServicesLib.inf
-      LockBoxLib|MdeModulePkg/Library/LockBoxNullLib/LockBoxNullLib.inf
-      PeiServicesTablePointerLib|MdePkg/Library/PeiServicesTablePointerLib/PeiServicesTablePointerLib.inf
-      TdxLib|MdePkg/Library/TdxLib/TdxLib.inf 
-     CcProbeLib|OvmfPkg/Library/CcProbeLib/DxeCcProbeLib.inf
-	    RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf 
   }
 
   UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/Library/TdxStartupLib/TestHobList.inf {

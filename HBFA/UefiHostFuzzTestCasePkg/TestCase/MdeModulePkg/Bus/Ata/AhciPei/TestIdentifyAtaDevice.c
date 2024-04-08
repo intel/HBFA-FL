@@ -82,6 +82,7 @@ VOID
   DeviceIndex = 1;
   Status = CreateNewDevice (Private, DeviceIndex, 1, 0xFFFF, 0, IdentifyData1);
   if (EFI_ERROR (Status)) {
+    FreePool (Private);
     return;
   }
 
@@ -145,6 +146,7 @@ VOID
     DataBuffer
     );
   FreePool (DataBuffer);
+  FreePool (Private);
 
   return;
 }
