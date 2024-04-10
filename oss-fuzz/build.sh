@@ -1,10 +1,13 @@
 #!/bin/bash -eu
+#
+# Copyright (c) 2024, Intel Corporation. All rights reserved.<BR>
+# SPDX-License-Identifier: BSD-2-Clause-Patent
+#
 export CLANG_PATH=/usr/local/bin
 export ASAN_SYMBOLIZER_PATH=/usr/local/bin/llvm-symbolizer
 export PACKAGES_PATH="$SRC/hbfa-fl/HBFA:$SRC/edk2"
 export EDK_TOOLS_PATH="$SRC/edk2/BaseTools"
 export CONF_PATH="$SRC/edk2/Conf"
-export PYTHON_COMMAND=/usr/local/bin/python
 export WORKSPACE=$WORK
 
 build_fuzzer() {
