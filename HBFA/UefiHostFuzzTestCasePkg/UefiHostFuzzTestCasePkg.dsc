@@ -149,10 +149,10 @@
 #    <LibraryClasses>
 #    NULL|MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
 #  }
-#  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.inf {
-#    <LibraryClasses>
-#    NULL|MdeModulePkg/Bus/Usb/UsbBusPei/UsbBusPei.inf
-#  }
+  UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Bus/Usb/UsbBusPei/TestPeiUsb.inf {
+    <LibraryClasses>
+    NULL|MdeModulePkg/Bus/Usb/UsbBusPei/UsbBusPei.inf
+  }
 
   UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibPkcs7/TestFmpAuthenticationLibPkcs7.inf {
     <LibraryClasses>
