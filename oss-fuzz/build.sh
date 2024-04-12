@@ -15,11 +15,18 @@ build_fuzzer() {
     inf=$2
     seed=${3:-""}
 
+    if [ $SANITIZER == "coverage" -a -n "$COVERAGE_FLAGS" ]; then
+        coverage="true"
+    else
+        coverage="false"
+    fi
+
     if [ ! -z $seed ]; then
         zip -j $OUT/${fuzzer}_seed_corpus.zip ${seed}/*
     fi
 
     python $SRC/hbfa-fl/HBFA/UefiHostTestTools/RunLibFuzzer.py -c manual -a X64 \
+        -p $coverage \
         -m $inf \
         -o $WORK
 
