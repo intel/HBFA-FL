@@ -34,7 +34,7 @@ python $SRC/hbfa-fl/HBFA/UefiHostTestTools/HBFAEnvSetup.py
 
 cp $SRC/hbfa-fl/HBFA/UefiHostFuzzTestPkg/Conf/build_rule.txt $SRC/edk2/Conf/build_rule.txt
 cp $SRC/hbfa-fl/HBFA/UefiHostFuzzTestPkg/Conf/tools_def.txt $SRC/edk2/Conf/tools_def.txt
-cp $SRC/*.options $OUT
+cp $SRC/hbfa-fl/oss-fuzz/*.options $OUT
 
 build_fuzzer "TestBmpSupportLib" \
     "$SRC/hbfa-fl/HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/BaseBmpSupportLib/TestBmpSupportLib.inf" \
