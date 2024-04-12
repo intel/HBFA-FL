@@ -17,8 +17,10 @@ build_fuzzer() {
 
     if [ $SANITIZER == "coverage" -a -n "$COVERAGE_FLAGS" ]; then
         coverage="true"
+        sanitizer="address"
     else
         coverage="false"
+        sanitizer=$SANITIZER
     fi
 
     if [ ! -z $seed ]; then
@@ -27,6 +29,7 @@ build_fuzzer() {
 
     python $SRC/hbfa-fl/HBFA/UefiHostTestTools/RunLibFuzzer.py -c manual -a X64 \
         -p $coverage \
+        -s $sanitizer \
         -m $inf \
         -o $WORK
 
