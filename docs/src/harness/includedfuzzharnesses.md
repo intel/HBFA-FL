@@ -14,7 +14,6 @@ A number of fuzzing test harness cases are included in HBFA-FL. These, test-harn
 | TestFmpAuthenticationLibRsa2048Sha256 | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/FmpAuthenticationLibRsa2048Sha256/TestFmpAuthenticationLibRsa2048Sha256.{c,inf} |
 | TestCapsulePei | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/CapsulePei/Common/TestCapsulePei.{c,inf} |
 | TestFileName | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/Disk/UdfDxe/TestFileName.{c,inf} |
-| TestValidateTdxCfv | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/EmuVariableFvbRuntimeDxe/TestValidateTdxCfv.{c,inf} |
 | TestTcg2MeasureGptTable | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasureGptTable.{c,inf} |
 | TestTcg2MeasurePeImage | HBFA/UefiHostFuzzTestCasePkg/TestCase/SecurityPkg/Library/DxeTpm2MeasureBootLib/TestTcg2MeasurePeImage.{c,inf} |
 | TestVirtioPciDevice | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioPciDeviceDxe/TestVirtioPciDevice.{c,inf} |
@@ -65,5 +64,6 @@ The following fuzzing test-cases are not included in HBFA-FL; however, they are 
 | TestUpdateLockBoxFuzzOffset | HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/SmmLockBoxLib/UpdateLockBoxTestCase/TestUpdateLockBoxFuzzOffset.{c,inf} |
 | TestHobList | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/Library/TdxStartupLib/TestHobList.{c,inf} |
 | TestParseMmioExitInstructions | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/Library/CcExitLib/TestParseMmioExitInstructions.{c,inf} |
+| TestValidateTdxCfv | HBFA/UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/EmuVariableFvbRuntimeDxe/TestValidateTdxCfv.{c,inf} |
 
 [&lt;&lt;](../fuzzing/building.md) Back | Return to [Summary](../SUMMARY.md) | Next [&gt;&gt;](../fuzzing/fuzzingwithAFL.md)
