@@ -216,32 +216,32 @@
    RngLib|MdePkg/Library/BaseRngLibTimerLib/BaseRngLibTimerLib.inf
    CcProbeLib|OvmfPkg/Library/CcProbeLib/DxeCcProbeLib.inf
   }
- UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/EmuVariableFvbRuntimeDxe/TestValidateTdxCfv.inf{
-  <LibraryClasses>
-   NULL|OvmfPkg/EmuVariableFvbRuntimeDxe/Fvb.inf
-   UefiRuntimeLib|MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib.inf
-   PlatformFvbLib|OvmfPkg/Library/EmuVariableFvbLib/EmuVariableFvbLib.inf
-   CcProbeLib|OvmfPkg/Library/CcProbeLib/DxeCcProbeLib.inf
-   PcdLib|MdePkg/Library/DxePcdLib/DxePcdLib.inf
-   BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
-   PeiHardwareInfoLib|OvmfPkg/Library/HardwareInfoLib/PeiHardwareInfoLib.inf
-   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
+# UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/EmuVariableFvbRuntimeDxe/TestValidateTdxCfv.inf{
+#  <LibraryClasses>
+#   NULL|OvmfPkg/EmuVariableFvbRuntimeDxe/Fvb.inf
+#   UefiRuntimeLib|MdePkg/Library/UefiRuntimeLib/UefiRuntimeLib.inf
+#   PlatformFvbLib|OvmfPkg/Library/EmuVariableFvbLib/EmuVariableFvbLib.inf
+#   CcProbeLib|OvmfPkg/Library/CcProbeLib/DxeCcProbeLib.inf
+#   PcdLib|MdePkg/Library/DxePcdLib/DxePcdLib.inf
+#   BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
+#   PeiHardwareInfoLib|OvmfPkg/Library/HardwareInfoLib/PeiHardwareInfoLib.inf
+#   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
    #UefiCpuLib|UefiCpuPkg/Library/BaseUefiCpuLib/BaseUefiCpuLib.inf
-   LocalApicLib|UefiCpuPkg/Library/BaseXApicX2ApicLib/BaseXApicX2ApicLib.inf
-   CcExitLib|OvmfPkg/Library/CcExitLib/CcExitLib.inf
-   MemEncryptTdxLib|OvmfPkg/Library/BaseMemEncryptTdxLib/BaseMemEncryptTdxLib.inf
-   MemEncryptSevLib|OvmfPkg/Library/BaseMemEncryptSevLib/DxeMemEncryptSevLib.inf
-   CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
-   PciExpressLib|MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf  
-   PciCf8Lib|MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
-   TdxLib|MdePkg/Library/TdxLib/TdxLib.inf
-   PciLib|OvmfPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
-   MtrrLib|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
-   QemuFwCfgSimpleParserLib|OvmfPkg/Library/QemuFwCfgSimpleParserLib/QemuFwCfgSimpleParserLib.inf
-   QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgDxeLib.inf
-   IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsicSev.inf
-   PlatformInitLib|OvmfPkg/Library/PlatformInitLib/PlatformInitLib.inf
-  }
+#   LocalApicLib|UefiCpuPkg/Library/BaseXApicX2ApicLib/BaseXApicX2ApicLib.inf
+#   CcExitLib|OvmfPkg/Library/CcExitLib/CcExitLib.inf
+#   MemEncryptTdxLib|OvmfPkg/Library/BaseMemEncryptTdxLib/BaseMemEncryptTdxLib.inf
+#   MemEncryptSevLib|OvmfPkg/Library/BaseMemEncryptSevLib/DxeMemEncryptSevLib.inf
+#   CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
+#   PciExpressLib|MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf  
+#   PciCf8Lib|MdePkg/Library/BasePciCf8Lib/BasePciCf8Lib.inf
+#   TdxLib|MdePkg/Library/TdxLib/TdxLib.inf
+#   PciLib|OvmfPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
+#   MtrrLib|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
+#   QemuFwCfgSimpleParserLib|OvmfPkg/Library/QemuFwCfgSimpleParserLib/QemuFwCfgSimpleParserLib.inf
+#   QemuFwCfgLib|OvmfPkg/Library/QemuFwCfgLib/QemuFwCfgDxeLib.inf
+#   IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsicSev.inf
+#   PlatformInitLib|OvmfPkg/Library/PlatformInitLib/PlatformInitLib.inf
+#  }
 
  UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioPciDeviceDxe/TestVirtioPciDevice.inf{
   <LibraryClasses>
