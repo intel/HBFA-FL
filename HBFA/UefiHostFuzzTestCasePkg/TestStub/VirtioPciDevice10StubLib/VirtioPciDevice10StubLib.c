@@ -813,9 +813,9 @@ EFIAPI
 PciIoRead (
   IN EFI_PCI_IO_PROTOCOL       *PciIo,
   IN EFI_PCI_IO_PROTOCOL_WIDTH Width,
-  IN UINT16                    Offset,
-  IN UINT16                    Count,
-  IN OUT UINT8                 *Buffer
+  IN UINT32                    Offset,
+  IN UINTN                     Count,
+  IN OUT VOID                  *Buffer
 ) {
   UINT16 Len = 0;
 
