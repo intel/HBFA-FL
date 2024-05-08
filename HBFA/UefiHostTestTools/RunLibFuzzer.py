@@ -436,8 +436,8 @@ def main():
                   " should start with {}.".format(HBFA_PATH))
             os._exit(0)
     elif not os.path.exists(os.path.join(HBFA_PATH, args.ModuleFile)):
-        print("ModuleFile path: {}".format(os.path.abspath(args.InputSeed))
-              + " does not exist or is not in the relative path for HBFA")
+        print("ModuleFile path: {}".format(args.ModuleFile)
+              + " does not exist or is not in the relative path for HBFA: {}".format(os.path.abspath(HBFA_PATH)))
         os._exit(0)
     else:
         ModuleFilePath = args.ModuleFile
