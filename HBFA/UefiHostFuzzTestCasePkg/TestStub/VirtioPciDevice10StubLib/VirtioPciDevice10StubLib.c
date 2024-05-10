@@ -87,13 +87,17 @@ GetBarType (
   OUT VIRTIO_1_0_BAR_TYPE  *BarType
   )
 {
+  if (BarIndex >= sizeof(PciCfg->PciBasicCfg.Device.Bar)/sizeof(UINT32)) {
+    return EFI_INVALID_PARAMETER;
+  }
+
   if (PciCfg->PciBasicCfg.Device.Bar[BarIndex] & BIT0) {
     *BarType = Virtio10BarTypeIo;
   }
   else {
     *BarType = Virtio10BarTypeMem;
   }
-  
+
   return EFI_SUCCESS;
 }
 
