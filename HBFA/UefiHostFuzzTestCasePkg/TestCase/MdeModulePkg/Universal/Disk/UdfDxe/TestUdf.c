@@ -57,7 +57,6 @@ TestSimpleFileSystem (
   EFI_SIMPLE_FILE_SYSTEM_PROTOCOL  *SimpleFs;
   EFI_FILE_PROTOCOL                *Root;
 
-  
   PrivFsData->Signature = PRIVATE_UDF_SIMPLE_FS_DATA_SIGNATURE;
   PrivFsData->BlockIo   = PartitionBlockIo;
   PrivFsData->DiskIo    = PartitionDiskIo;
@@ -67,7 +66,7 @@ TestSimpleFileSystem (
   CopyMem ((VOID *)&PrivFsData->SimpleFs, (VOID *)&gUdfSimpleFsTemplate, sizeof (EFI_SIMPLE_FILE_SYSTEM_PROTOCOL));
 
   SimpleFs = &PrivFsData->SimpleFs;
-  
+
   // Test SimpleFs == NULL or &Root == NULL
   Status = SimpleFs->OpenVolume (
                        NULL,
@@ -79,7 +78,7 @@ TestSimpleFileSystem (
                        NULL
                        );
   ASSERT (EFI_ERROR(Status));
-  
+
   // Test normal situation
   Status = SimpleFs->OpenVolume (
                        SimpleFs,
@@ -116,7 +115,7 @@ TestFile (
     }
   }
   ASSERT (FileHandle != NULL);
-  
+
   //
   // Test UdfSetPosition
   //
@@ -124,39 +123,37 @@ TestFile (
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
+
   //
   // Test UdfGetPosition
   //
   // Test FileHandle == NULL or &SourceFileSize == NULL
   Status = FileHandle->GetPosition (NULL, &SourceFileSize);
   ASSERT(EFI_ERROR(Status));
-  
+
   Status = FileHandle->GetPosition (FileHandle, NULL);
   ASSERT(EFI_ERROR(Status));
-  
+
   // Test normal situation
   Status = FileHandle->GetPosition (FileHandle, &SourceFileSize);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
   ASSERT (SourceFileSize <= MAX_UINTN);
-  
-  
+
   //
   // Test UdfSetPosition
   //
   // Test FileHandle == NULL
   Status = FileHandle->SetPosition (NULL, 0);
   ASSERT(EFI_ERROR(Status));
-  
+
   // Test normal situation
   Status = FileHandle->SetPosition (FileHandle, 0);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
-  
+
   //
   // Test UdfRead
   //
@@ -168,12 +165,12 @@ TestFile (
   }
 
   BufferSize = (UINTN) SourceFileSize;
-  
+
   Status = FileHandle->Read (NULL, &BufferSize, Buffer);
   ASSERT(EFI_ERROR(Status));
   Status = FileHandle->Read (FileHandle, NULL, Buffer);
   ASSERT(EFI_ERROR(Status));
-  
+
   // Test Position > FileSize
   Status = FileHandle->SetPosition (FileHandle, SourceFileSize + 1);
   if (EFI_ERROR (Status)) {
@@ -181,7 +178,7 @@ TestFile (
   }
   Status = FileHandle->Read (FileHandle, &BufferSize, Buffer);
   ASSERT(EFI_ERROR(Status));
-  
+
   // Test normal situation
   Status = FileHandle->SetPosition (FileHandle, 0);
   if (EFI_ERROR (Status)) {
@@ -191,8 +188,7 @@ TestFile (
   if (EFI_ERROR (Status) || BufferSize != (UINTN) SourceFileSize) {
     goto Done;
   }
-  
-  
+
   //
   // Test UdfGetInfo
   //
@@ -202,51 +198,50 @@ TestFile (
   if (FileInfo == NULL) {
     goto Done;
   }
-  
+
   Status = FileHandle->GetInfo (NULL, &gEfiFileSystemInfoGuid, &FileBufferSize, FileInfo);
   ASSERT(EFI_ERROR(Status));
-  
+
   Status = FileHandle->GetInfo (FileHandle, NULL, &FileBufferSize, FileInfo);
   ASSERT(EFI_ERROR(Status));
-  
+
   Status = FileHandle->GetInfo (FileHandle, &gEfiFileSystemInfoGuid, NULL, FileInfo);
   ASSERT(EFI_ERROR(Status));
-  
+
   // Test normal situation
   Status = FileHandle->GetInfo (FileHandle, &gEfiFileSystemInfoGuid, &FileBufferSize, FileInfo);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
+
   Status = FileHandle->GetInfo (FileHandle, &gEfiFileSystemVolumeLabelInfoIdGuid, &FileBufferSize, FileInfo);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
+
   //
   // Test UdfWrite
   //
   Status = FileHandle->Write (FileHandle, &FileBufferSize, FileInfo);
   ASSERT(EFI_ERROR (Status));
-  
-  
+
   //
   // Test SetInfo
   //
   Status = FileHandle-> SetInfo (FileHandle, &gEfiFileSystemInfoGuid, FileBufferSize, FileInfo);
   ASSERT(EFI_ERROR (Status));
-  
+
 Done:
   if (FileHandle != NULL) {
     Status = FileHandle->Close (NULL);
     Status = FileHandle->Close (FileHandle);
   }
-  
+
   if (Buffer != NULL) {
     FreePool(Buffer);
     Buffer = NULL;
   }
-  
+
   if (FileInfo != NULL) {
     FreePool(FileInfo);
     FileInfo = NULL;
@@ -272,13 +267,13 @@ TestDetele (
     }
   }
   ASSERT (FileHandle != NULL);
-  
+
   Status = FileHandle->Delete (NULL);
   Status = FileHandle->Delete (FileHandle);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
+
 Done:
   return ;
 }
@@ -301,10 +296,10 @@ TestFlush (
     }
   }
   ASSERT (FileHandle != NULL);
-  
+
   Status = FileHandle->Flush (FileHandle);
   ASSERT(EFI_ERROR (Status));
-  
+
 Done:
   if (FileHandle != NULL) {
     Status = FileHandle->Close (FileHandle);
@@ -335,7 +330,7 @@ TestDir (
     }
   }
   ASSERT (FileHandle != NULL);
-  
+
   //
   // Test UdfRead
   //
@@ -344,24 +339,23 @@ TestDir (
   if (FileInfo == NULL) {
     goto Done ;
   }
-  
+
   FileBufferSize = 0;
   Status = FileHandle->Read (FileHandle, &FileBufferSize, FileInfo);
-  
+
   FileBufferSize = sizeof(EFI_FILE_INFO) + sizeof(CHAR16) * 1024;
   Status = FileHandle->Read (FileHandle, &FileBufferSize, FileInfo);
   if (EFI_ERROR (Status)) {
     goto Done ;
   }
-  
+
   //
   // Test UdfGetPosition
   //
   // As per UEFI spec, if the file handle is a directory, then the current file
   // position has no meaning and the operation is not supported.
   Status = FileHandle->GetPosition (FileHandle, &SourceFileSize);
-  
-  
+
   //
   // Test UdfSetPosition
   //
@@ -369,7 +363,7 @@ TestDir (
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
+
   //
   // Test UdfGetInfo
   //
@@ -383,11 +377,11 @@ TestDir (
   if (EFI_ERROR (Status)) {
     goto Done ;
   }
-  
+
   DirBufferSize = 0;
   Status = FileHandle->GetInfo (FileHandle, &gEfiFileSystemInfoGuid, &DirBufferSize, DirInfo);
   ASSERT (EFI_ERROR (Status));
-  
+
   DirBufferSize = 0;
   Status = FileHandle->GetInfo (FileHandle, &gEfiFileSystemVolumeLabelInfoIdGuid, &DirBufferSize, DirInfo);
   ASSERT (EFI_ERROR (Status));
@@ -397,18 +391,18 @@ TestDir (
   if (EFI_ERROR (Status)) {
     goto Done ;
   }
-  
+
   Status = FileHandle->GetInfo (FileHandle, &gEfiFileSystemVolumeLabelInfoIdGuid, &DirBufferSize, DirInfo);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  
+
 Done:
   if (FileHandle != NULL) {
     Status = FileHandle-> Close (NULL);
     Status = FileHandle-> Close (FileHandle);
   }
-  
+
   if (DirInfo != NULL) {
     FreePool(DirInfo);
     DirInfo = NULL;
@@ -432,7 +426,7 @@ TestUdfFileSystem (
   )
 {
   EFI_FILE_PROTOCOL                *Root;
-  
+
   PrivFsData = (PRIVATE_UDF_SIMPLE_FS_DATA *)AllocateZeroPool (sizeof (PRIVATE_UDF_SIMPLE_FS_DATA));
   if (PrivFsData == NULL) {
     goto Done ;
@@ -442,7 +436,7 @@ TestUdfFileSystem (
   if (Root == NULL) {
     goto Done ;
   }
-  
+
   if (FileName == NULL) {
     TestFile (Root, L"udf.bin");
     TestFile (Root, L".\\\\b\\\\a");
@@ -450,7 +444,7 @@ TestUdfFileSystem (
     TestFile (Root, L"b_link\\      a");
     TestFile (Root, L"...a");
     TestFile (Root, NULL);
-    
+
     TestDir (Root, L"\\");
     TestDir (Root, L".");
     TestDir (Root, L"..");
@@ -460,14 +454,12 @@ TestUdfFileSystem (
 
     TestDetele (Root, L"b_link\\c");
     TestFlush (Root, L"b_link\\a_link");
-    goto Done;
   } else {
     TestFile (Root, FileName);
     TestDir (Root, FileName);
 
     TestDetele (Root, FileName);
     TestFlush (Root, FileName);
-    goto Done;
   }
 Done:
   if (PrivFsData != NULL) {
@@ -505,8 +497,8 @@ RunTestHarness(
   // The files are updated in 0x202.
   //
   DiskStubInitialize ((UINT8 *)TestBuffer + 0x202 * BLOCK_SIZE, TOTAL_SIZE - 0x202 * BLOCK_SIZE, BLOCK_SIZE, IO_ALIGN, &PartitionBlockIo, &PartitionDiskIo);
-  
+
   TestUdfFileSystem (PartitionBlockIo, PartitionDiskIo, TestBuffer, FileName);
-  
+
   DiskStubDestory();
 }
