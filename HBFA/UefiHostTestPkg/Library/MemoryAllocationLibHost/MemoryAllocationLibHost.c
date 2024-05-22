@@ -225,7 +225,7 @@ AllocateCopyPool (
   IN CONST VOID  *Buffer
   )
 {
-  VOID  *Memory;  
+  VOID  *Memory;
   Memory = malloc (AllocationSize);
   if (Memory == NULL) {
     return NULL;
@@ -262,12 +262,7 @@ ReallocatePool (
   IN VOID   *OldBuffer  OPTIONAL
   )
 {
-  VOID  *NewBuffer;
-  NewBuffer = malloc (NewSize);
-  if (NewBuffer != NULL && OldBuffer != NULL) {
-    memcpy (NewBuffer, OldBuffer, MIN (OldSize, NewSize));
-  }
-  return NewBuffer;
+  return realloc (OldBuffer, NewSize);
 }
 
 VOID *
