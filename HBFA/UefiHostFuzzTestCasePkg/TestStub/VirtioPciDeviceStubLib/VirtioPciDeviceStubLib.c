@@ -193,7 +193,7 @@ PciIoRead (
   IN UINT8                     BAR_IDX,
   IN UINT64                    Offset,
   IN UINTN                     Count,
-  IN OUT UINT8                 *Buffer
+  IN OUT VOID                  *Buffer
 ) {
   UINT16 Len = 0;
 
@@ -221,9 +221,9 @@ PciIoWrite (
   IN EFI_PCI_IO_PROTOCOL       *PciIo,
   IN EFI_PCI_IO_PROTOCOL_WIDTH Width,
   IN UINT8                     BAR_IDX,
-  IN UINT16                    Offset,
-  IN UINT16                    Count,
-  IN OUT UINT8                 *Buffer
+  IN UINT64                    Offset,
+  IN UINTN                     Count,
+  IN OUT VOID                  *Buffer
 ) {
   UINT16 Len = 0;
 
@@ -312,10 +312,10 @@ InitVirtioPciDev (
     fputs ("File error",stderr);
     goto FreeDevice;
   }
-  
+
   PciCfg->PciBasicCfg.Device.Bar[0] = (UINT32) ((UINT64)PciCfg + sizeof(PCI_CFG_SPACE));
   PciCfg->PciBasicCfg.Device.Bar[1] = (UINT32) (((UINT64)PciCfg + sizeof(PCI_CFG_SPACE)) >> 32);
-  
+
   Device->VirtioDevice.SubSystemDeviceId = PciCfg->PciBasicCfg.Device.SubsystemID;
 
   PciIo->Io.Read = &PciIoRead;
@@ -347,7 +347,7 @@ ParseBufferAndInitVirtioPciDev (
 )
 {
   VIRTIO_HDR                    *VirtioHdr;
-  
+
 
   // ConfigRegion = (VOID *) AllocatePool(sizeof (PCI_CFG_SPACE) + sizeof(VIRTIO_HDR) + sizeof (VIRTIO_BLK_CONFIG));
   if (ConfigRegion == NULL) {
@@ -368,7 +368,7 @@ ParseBufferAndInitVirtioPciDev (
   CopyMem (&Device->VirtioDevice, &mDeviceProtocolTemplate, sizeof (VIRTIO_DEVICE_PROTOCOL));
 
   CopyMem ((void *)PciCfg, (void *) TestBuffer, sizeof (PCI_CFG_SPACE) + sizeof(VIRTIO_HDR) + sizeof (VIRTIO_BLK_CONFIG));
-  
+
   Device->VirtioDevice.Revision = VIRTIO_SPEC_REVISION (0, 9, 5);
   Device->VirtioDevice.SubSystemDeviceId = PciCfg->PciBasicCfg.Device.SubsystemID;
 
@@ -384,7 +384,7 @@ ParseBufferAndInitVirtioPciDev (
 
   PciCfg->PciBasicCfg.Device.Bar[0] = (UINT32) ((UINT64)PciCfg + sizeof(PCI_CFG_SPACE));
   PciCfg->PciBasicCfg.Device.Bar[1] = (UINT32) (((UINT64)PciCfg + sizeof(PCI_CFG_SPACE)) >> 32);
-  
+
   Device->VirtioDevice.SubSystemDeviceId = PciCfg->PciBasicCfg.Device.SubsystemID;
 
   PciIo->Io.Read = &PciIoRead;
