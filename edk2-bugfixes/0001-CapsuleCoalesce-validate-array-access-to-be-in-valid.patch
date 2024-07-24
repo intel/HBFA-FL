@@ -1,0 +1,39 @@
+From 87a54812f85bf9f8fb59e3456fef5ed8759f42ab Mon Sep 17 00:00:00 2001
+From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
+Date: Wed, 24 Jul 2024 13:12:24 +0000
+Subject: [PATCH] CapsuleCoalesce: validate array access to be in valid memory 
+ resource
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fixes oss-fuzz issue #68644: Heap-buffer-overflow READ 8 · BuildCapsuleDescriptors
+
+==25707==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x78e4735ff800 at pc 0x00000059b258 bp 0x7ffcdf2e7560 sp 0x7ffcdf2e7558
+READ of size 8 at 0x78e4735ff800 thread T0
+SCARINESS: 23 (8-byte-read-heap-buffer-overflow)
+    #0 0x59b257 in BuildCapsuleDescriptors edk2/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c:908:10
+    #1 0x59b47b in CapsuleDataCoalesce edk2/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c:1067:12
+    #2 0x596cfd in RunTestHarness hbfa-fl/HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Universal/CapsulePei/Common/TestCapsulePei.c:80:3
+
+Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
+---
+ MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c b/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c
+index aab35dcd8a..94c4200d70 100644
+--- a/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c
++++ b/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c
+@@ -905,7 +905,7 @@ BuildCapsuleDescriptors (
+   TempBlock = NULL;
+   Index     = 0;
+ 
+-  while (BlockListBuffer[Index] != 0) {
++  while (ValidateCapsuleByMemoryResource(MemoryResource, BlockListBuffer + Index, sizeof(EFI_PHYSICAL_ADDRESS)) && BlockListBuffer[Index] != 0) {
+     //
+     // Test integrity of descriptors.
+     //
+-- 
+2.34.1
+
