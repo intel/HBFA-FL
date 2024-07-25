@@ -67,7 +67,7 @@ RunTestHarness(
   MemoryBase = AllocatePool (MemorySize);
 
   MemoryResource[0].PhysicalStart  = (UINT64)(UINTN)TestBuffer;
-  MemoryResource[0].ResourceLength = (UINT64)(UINTN)TOTAL_SIZE;
+  MemoryResource[0].ResourceLength = (UINT64)(UINTN)TestBufferSize;
   MemoryResource[1].PhysicalStart  = (UINT64)(UINTN)MemoryBase;
   MemoryResource[1].ResourceLength = (UINT64)(UINTN)MemorySize;
   MemoryResource[2].PhysicalStart  = 0;

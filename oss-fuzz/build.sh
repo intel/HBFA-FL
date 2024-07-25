@@ -37,6 +37,7 @@ build_fuzzer() {
 }
 
 cd $SRC/edk2
+for p in $(ls $SRC/hbfa-fl/edk2-bugfixes/*.patch); do patch -p1 < $p || :; done
 make -C BaseTools
 source edksetup.sh
 cd ..
