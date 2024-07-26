@@ -1,0 +1,83 @@
+From 244f5a72fbcbed2a4a5ce301e2ea96f84a13de84 Mon Sep 17 00:00:00 2001
+From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
+Date: Fri, 26 Jul 2024 13:27:54 +0000
+Subject: [PATCH] Fix TranslateBmpToGopBlt
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fixes oss-fuzz issue #68646: Heap-buffer-overflow READ 1 · TranslateBmpToGopBlt
+
+==41962==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5190000004b4 at pc 0x00000059b3c7 bp 0x7ffcb6f14150 sp 0x7ffcb6f14148
+READ of size 1 at 0x5190000004b4 thread T0
+SCARINESS: 22 (1-byte-read-heap-buffer-overflow-far-from-bounds)
+    #0 0x59b3c6 in TranslateBmpToGopBlt edk2/MdeModulePkg/Library/BaseBmpSupportLib/BmpSupportLib.c:387:44
+    #1 0x596bdd in RunTestHarness hbfa-fl/HBFA/UefiHostFuzzTestCasePkg/TestCase/MdeModulePkg/Library/BaseBmpSupportLib/TestBmpSupportLib.c:57:3
+
+Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
+---
+ .../Library/BaseBmpSupportLib/BmpSupportLib.c | 44 +++++++++----------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
+
+diff --git a/MdeModulePkg/Library/BaseBmpSupportLib/BmpSupportLib.c b/MdeModulePkg/Library/BaseBmpSupportLib/BmpSupportLib.c
+index c5e885d7a6..590c83703e 100644
+--- a/MdeModulePkg/Library/BaseBmpSupportLib/BmpSupportLib.c
++++ b/MdeModulePkg/Library/BaseBmpSupportLib/BmpSupportLib.c
+@@ -232,33 +232,31 @@ TranslateBmpToGopBlt (
+   //
+   Image       = BmpImage;
+   BmpColorMap = (BMP_COLOR_MAP *)(Image + sizeof (BMP_IMAGE_HEADER));
+-  if (BmpHeader->ImageOffset < sizeof (BMP_IMAGE_HEADER)) {
++  if (BmpHeader->ImageOffset <= sizeof (BMP_IMAGE_HEADER)) {
+     return RETURN_UNSUPPORTED;
+   }
+ 
+-  if (BmpHeader->ImageOffset > sizeof (BMP_IMAGE_HEADER)) {
+-    switch (BmpHeader->BitPerPixel) {
+-      case 1:
+-        ColorMapNum = 2;
+-        break;
+-      case 4:
+-        ColorMapNum = 16;
+-        break;
+-      case 8:
+-        ColorMapNum = 256;
+-        break;
+-      default:
+-        ColorMapNum = 0;
+-        break;
+-    }
++  switch (BmpHeader->BitPerPixel) {
++    case 1:
++      ColorMapNum = 2;
++      break;
++    case 4:
++      ColorMapNum = 16;
++      break;
++    case 8:
++      ColorMapNum = 256;
++      break;
++    default:
++      ColorMapNum = 0;
++      break;
++  }
+ 
+-    //
+-    // BMP file may has padding data between the bmp header section and the
+-    // bmp data section.
+-    //
+-    if (BmpHeader->ImageOffset - sizeof (BMP_IMAGE_HEADER) < sizeof (BMP_COLOR_MAP) * ColorMapNum) {
+-      return RETURN_UNSUPPORTED;
+-    }
++  //
++  // BMP file may has padding data between the bmp header section and the
++  // bmp data section.
++  //
++  if (BmpHeader->ImageOffset - sizeof (BMP_IMAGE_HEADER) < sizeof (BMP_COLOR_MAP) * ColorMapNum) {
++    return RETURN_UNSUPPORTED;
+   }
+ 
+   //
+-- 
+2.34.1
+

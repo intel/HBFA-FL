@@ -1,0 +1,43 @@
+From 01ab2c4e2eef72a592dfad507350df4b321dcd38 Mon Sep 17 00:00:00 2001
+From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
+Date: Thu, 25 Jul 2024 13:01:18 +0000
+Subject: [PATCH] Fix Bug in UdfDxe MangleFilename
+
+Fixes oss-fuzz issue #68623: edk2:TestFileName: Heap-buffer-overflow in MangleFileName
+
+==33064==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5210000028fe at pc 0x0000005997ee bp 0x7fffb936d9d0 sp 0x7fffb936d9c8
+READ of size 2 at 0x5210000028fe thread T0
+SCARINESS: 14 (2-byte-read-heap-buffer-overflow)
+    #0 0x5997ed in MangleFileName edk2/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c:186:19
+    #1 0x5969f4 in LLVMFuzzerTestOneInput hbfa-fl/HBFA/UefiHostFuzzTestPkg/Library/ToolChainHarnessLib/ToolChainHarnessLib.c:146:3
+
+Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
+---
+ MdeModulePkg/Universal/Disk/UdfDxe/FileName.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c b/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
+index 6db34a9c8c..5b2851d77d 100644
+--- a/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
++++ b/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
+@@ -156,7 +156,7 @@ MangleFileName (
+           TempFileName = ExcludeTrailingBackslashes (TempFileName);
+           ReplaceLeft (FileName, TempFileName);
+           break;
+-        case '.':
++        case L'.':
+           if ((*(FileName - 1) != L'\\') && ((*(FileName + 2) != L'\\') ||
+                                              (*(FileName + 2) != L'\0')))
+           {
+@@ -183,7 +183,7 @@ MangleFileName (
+           } else {
+             if (*(FileName + 2) != L'\0') {
+               ReplaceLeft (TempFileName, FileName + 3);
+-              if (*(TempFileName - 1) == L'\\') {
++              if (TempFileName - 1 >= FileNameSavedPointer && *(TempFileName - 1) == L'\\') {
+                 FileName = TempFileName;
+                 ExcludeTrailingBackslashes (TempFileName - 1);
+                 TempFileName = FileName;
+-- 
+2.34.1
+
