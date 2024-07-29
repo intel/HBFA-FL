@@ -1,7 +1,7 @@
-From 87a54812f85bf9f8fb59e3456fef5ed8759f42ab Mon Sep 17 00:00:00 2001
+From 9efcfa3ca14bc3011d00033c39c16e779b46c37b Mon Sep 17 00:00:00 2001
 From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
 Date: Wed, 24 Jul 2024 13:12:24 +0000
-Subject: [PATCH] CapsuleCoalesce: validate array access to be in valid memory 
+Subject: [PATCH] CapsuleCoalesce: validate array access to be in valid memory
  resource
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -22,7 +22,7 @@ Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c b/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c
-index aab35dcd8a..94c4200d70 100644
+index aab35dcd8a..7b7a4c3a6c 100644
 --- a/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c
 +++ b/MdeModulePkg/Universal/CapsulePei/Common/CapsuleCoalesce.c
 @@ -905,7 +905,7 @@ BuildCapsuleDescriptors (
@@ -30,7 +30,7 @@ index aab35dcd8a..94c4200d70 100644
    Index     = 0;
  
 -  while (BlockListBuffer[Index] != 0) {
-+  while (ValidateCapsuleByMemoryResource(MemoryResource, BlockListBuffer + Index, sizeof(EFI_PHYSICAL_ADDRESS)) && BlockListBuffer[Index] != 0) {
++  while (ValidateCapsuleByMemoryResource(MemoryResource, (EFI_PHYSICAL_ADDRESS)BlockListBuffer + Index, sizeof(EFI_PHYSICAL_ADDRESS)) && BlockListBuffer[Index] != 0) {
      //
      // Test integrity of descriptors.
      //
