@@ -1,6 +1,6 @@
-From 01ab2c4e2eef72a592dfad507350df4b321dcd38 Mon Sep 17 00:00:00 2001
+From 5aefce7abe05362fe4a7321ccc3fc8fdc3a2daaf Mon Sep 17 00:00:00 2001
 From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
-Date: Thu, 25 Jul 2024 13:01:18 +0000
+Date: Wed, 31 Jul 2024 16:49:11 +0000
 Subject: [PATCH] Fix Bug in UdfDxe MangleFilename
 
 Fixes oss-fuzz issue #68623: edk2:TestFileName: Heap-buffer-overflow in MangleFileName
@@ -17,7 +17,7 @@ Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c b/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
-index 6db34a9c8c..5b2851d77d 100644
+index 6db34a9c8c..a2e481bd55 100644
 --- a/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
 +++ b/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
 @@ -156,7 +156,7 @@ MangleFileName (
@@ -29,15 +29,15 @@ index 6db34a9c8c..5b2851d77d 100644
            if ((*(FileName - 1) != L'\\') && ((*(FileName + 2) != L'\\') ||
                                               (*(FileName + 2) != L'\0')))
            {
-@@ -183,7 +183,7 @@ MangleFileName (
+@@ -181,7 +181,7 @@ MangleFileName (
+           if ((*TempFileName == L'.') && (*(TempFileName + 1) == L'.')) {
+             FileName += 2;
            } else {
-             if (*(FileName + 2) != L'\0') {
+-            if (*(FileName + 2) != L'\0') {
++            if (TempFileName - 1 >= FileNameSavedPointer && *(TempFileName - 1) == L'\\') {
                ReplaceLeft (TempFileName, FileName + 3);
--              if (*(TempFileName - 1) == L'\\') {
-+              if (TempFileName - 1 >= FileNameSavedPointer && *(TempFileName - 1) == L'\\') {
+               if (*(TempFileName - 1) == L'\\') {
                  FileName = TempFileName;
-                 ExcludeTrailingBackslashes (TempFileName - 1);
-                 TempFileName = FileName;
 -- 
 2.34.1
 
