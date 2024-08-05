@@ -9,10 +9,14 @@ on:
   schedule:
     - cron: '30 5 * * *'
 
+permissions: {}
+
 jobs:
   build_test_artifacts:
     name: Build Testcases
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     container:
       image: ghcr.io/tianocore/containers/ubuntu-22-build
     defaults:
