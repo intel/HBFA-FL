@@ -134,7 +134,7 @@ For LibFuzzer, it is assumed that a modern version of Clang/LLVM is installed on
 
 ```console
 root@a791b2478af5:~/hbfa_workspace# export CLANG_PATH=/usr/bin/
-root@a791b2478af5:~/hbfa_workspace# export ASAN_SYMBOLIZER_PATH=$CLANG/llvm-symbolizer
+root@a791b2478af5:~/hbfa_workspace# export ASAN_SYMBOLIZER_PATH=$CLANG_PATH/llvm-symbolizer
 ```
 
 ### Test build for the included fuzzing test-harnesses with LibFuzzer as the fuzzer
