@@ -46,10 +46,10 @@ Noting, we are redefining the 'WORKSPACE' environment variable and defining the 
 
 If you wish to fuzz with AFL, you will need to obtain, build, configure, and set-up a few environment variables.
 
-First, assuming the use of the original AFL-2.52b version of AFL, you can obtain the source code from http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz. Here, we'll use the ```wget``` tool to download the source, then build, and set up the appropriate environment.
+First, assuming the use of the original AFL-2.52b version of AFL, you can obtain the source code from https://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz. Here, we'll use the ```wget``` tool to download the source, then build, and set up the appropriate environment.
 
 ```console
-root@a791b2478af5:~/hbfa_workspace# wget -q http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz
+root@a791b2478af5:~/hbfa_workspace# wget -q https://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz
 root@a791b2478af5:~/hbfa_workspace# tar xf afl-latest.tgz && rm afl-latest.tgz
 root@a791b2478af5:~/hbfa_workspace# ll
 total 20
@@ -134,7 +134,7 @@ For LibFuzzer, it is assumed that a modern version of Clang/LLVM is installed on
 
 ```console
 root@a791b2478af5:~/hbfa_workspace# export CLANG_PATH=/usr/bin/
-root@a791b2478af5:~/hbfa_workspace# export ASAN_SYMBOLIZER_PATH=$CLANG/llvm-symbolizer
+root@a791b2478af5:~/hbfa_workspace# export ASAN_SYMBOLIZER_PATH=$CLANG_PATH/llvm-symbolizer
 ```
 
 ### Test build for the included fuzzing test-harnesses with LibFuzzer as the fuzzer
