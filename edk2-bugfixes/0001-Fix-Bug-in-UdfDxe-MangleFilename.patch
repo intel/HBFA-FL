@@ -1,7 +1,7 @@
 From 5aefce7abe05362fe4a7321ccc3fc8fdc3a2daaf Mon Sep 17 00:00:00 2001
 From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
 Date: Wed, 31 Jul 2024 16:49:11 +0000
-Subject: [PATCH] Fix Bug in UdfDxe MangleFilename
+Subject: [PATCH 1/2] Fix Bug in UdfDxe MangleFilename
 
 Fixes oss-fuzz issue #68623: edk2:TestFileName: Heap-buffer-overflow in MangleFileName
 

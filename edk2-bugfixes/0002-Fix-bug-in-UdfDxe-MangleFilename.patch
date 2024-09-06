@@ -1,0 +1,36 @@
+From 36a3b88dc7c8e15047ed0a2cccbf5e4f17d55405 Mon Sep 17 00:00:00 2001
+From: "tamas.lengyel@intel.com" <Tamas K Lengyel>
+Date: Fri, 6 Sep 2024 16:16:54 +0000
+Subject: [PATCH 2/2] Fix bug in UdfDxe MangleFilename
+
+Fixes oss-fuzz issue #70941: edk2:TestFileName: Heap-buffer-overflow in MangleFileName
+
+==18329==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5210000028fe at pc 0x0000005997fb bp 0x7ffd8610f180 sp 0x7ffd8610f178
+READ of size 2 at 0x5210000028fe thread T0
+SCARINESS: 14 (2-byte-read-heap-buffer-overflow)
+    #0 0x5997fa in MangleFileName edk2/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c:160:16
+    #1 0x5969f4 in LLVMFuzzerTestOneInput hbfa-fl/HBFA/UefiHostFuzzTestPkg/Library/ToolChainHarnessLib/ToolChainHarnessLib.c:146:3
+
+Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
+---
+ MdeModulePkg/Universal/Disk/UdfDxe/FileName.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c b/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
+index a2e481bd55..0970d3d4b0 100644
+--- a/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
++++ b/MdeModulePkg/Universal/Disk/UdfDxe/FileName.c
+@@ -157,8 +157,8 @@ MangleFileName (
+           ReplaceLeft (FileName, TempFileName);
+           break;
+         case L'.':
+-          if ((*(FileName - 1) != L'\\') && ((*(FileName + 2) != L'\\') ||
+-                                             (*(FileName + 2) != L'\0')))
++          if (FileName - 1 >= FileNameSavedPointer && *(FileName - 1) != L'\\' &&
++              *(FileName + 2) != L'\\' && *(FileName + 2) != L'\0')
+           {
+             FileName++;
+             continue;
+-- 
+2.34.1
+
