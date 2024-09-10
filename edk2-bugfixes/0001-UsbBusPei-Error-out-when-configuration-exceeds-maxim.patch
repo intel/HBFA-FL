@@ -1,0 +1,45 @@
+From 8be3e7888ab800a1ee236c616502f042c66f86d0 Mon Sep 17 00:00:00 2001
+From: Tamas K Lengyel <tamas.lengyel@intel.com>
+Date: Tue, 10 Sep 2024 18:22:20 +0000
+Subject: [PATCH] UsbBusPei: Error out when configuration exceeds maximums
+ allowed
+
+ASSERT is not appropriate for a security check, switch to DEBUG and
+return error code.
+
+Signed-off-by: Tamas K Lengyel <tamas.lengyel@intel.com>
+---
+ MdeModulePkg/Bus/Usb/UsbBusPei/UsbPeim.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/MdeModulePkg/Bus/Usb/UsbBusPei/UsbPeim.c b/MdeModulePkg/Bus/Usb/UsbBusPei/UsbPeim.c
+index 6ea4495162..46201eaa9f 100644
+--- a/MdeModulePkg/Bus/Usb/UsbBusPei/UsbPeim.c
++++ b/MdeModulePkg/Bus/Usb/UsbBusPei/UsbPeim.c
+@@ -871,6 +871,11 @@ PeiUsbGetAllConfiguration (
+   Ptr       += sizeof (EFI_USB_CONFIG_DESCRIPTOR);
+   LengthLeft = ConfigDescLength - SkipBytes - sizeof (EFI_USB_CONFIG_DESCRIPTOR);
+ 
++  if (PeiUsbDevice->ConfigDesc->NumInterfaces > MAX_INTERFACE) {
++    DEBUG ((DEBUG_ERROR, "PeiUsbGet Number of interfaces in the configuration exceeds maximum allowed"));
++    return EFI_DEVICE_ERROR;
++  }
++
+   for (InterfaceIndex = 0; InterfaceIndex < PeiUsbDevice->ConfigDesc->NumInterfaces; InterfaceIndex++) {
+     //
+     // Get the interface descriptor
+@@ -902,7 +907,10 @@ PeiUsbGetAllConfiguration (
+     // Parse all the endpoint descriptor within this interface
+     //
+     NumOfEndpoint = PeiUsbDevice->InterfaceDescList[InterfaceIndex]->NumEndpoints;
+-    ASSERT (NumOfEndpoint <= MAX_ENDPOINT);
++    if (NumOfEndpoint > MAX_ENDPOINT) {
++        DEBUG ((DEBUG_ERROR, "PeiUsbGet Number of endpoints in interface configuration exceeds maximum allowed"));
++        return EFI_DEVICE_ERROR;
++    }
+ 
+     for (Index = 0; Index < NumOfEndpoint; Index++) {
+       //
+-- 
+2.34.1
+
