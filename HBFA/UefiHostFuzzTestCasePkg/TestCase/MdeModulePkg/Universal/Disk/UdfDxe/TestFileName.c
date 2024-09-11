@@ -39,5 +39,16 @@ RunTestHarness(
   IN UINTN TestBufferSize
   )
 {
+  UINT8 *_TestBuffer = (UINT8*)TestBuffer;
+  UINTN Index;
+
+  // Only caller in edk2 ensures string is properly NULL-terminated
+  if ( TestBufferSize > MAX_FILENAME_LEN-sizeof(L'\0') )
+    Index = MAX_FILENAME_LEN - sizeof(L'\0');
+  else
+    Index = TestBufferSize;
+
+  _TestBuffer[Index] = L'\0';
+
   MangleFileName((CHAR16*)TestBuffer);
 }
