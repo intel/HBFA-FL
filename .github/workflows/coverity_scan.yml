@@ -24,4 +24,4 @@ jobs:
         build_language: 'other'
         command: |
             --no-command
-            --fs-capture-search ${{ github.workspace }}/HBFA
+        command: --no-command --fs-capture-search ${{ github.workspace }}/HBFA
