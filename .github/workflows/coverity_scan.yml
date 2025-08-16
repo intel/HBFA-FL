@@ -22,4 +22,6 @@ jobs:
         email: ${{ secrets.COVERITY_SCAN_EMAIL }}
         token: ${{ secrets.COVERITY_SCAN_TOKEN }}
         build_language: 'other'
-        command: '--no-command --fs-capture-search ./ --fs-capture-search-exclude-regex /cov-analysis/.* --fs-capture-search-exclude-regex /cve_bin_tool/schemas.*'
+        command: |
+            --no-command
+            --fs-capture-search ${{ github.workspace }}/HBFA
