@@ -1,0 +1,28 @@
+name: OpenSSF scorecard check
+
+on:
+  schedule:
+    # Run at 6:00am on Mondays
+    - cron: '0 6 * * 1'
+
+permissions:
+    contents: read
+
+jobs:
+  PerformOSSFScan:
+    name: Perform OpenSSF Scan
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # 5.0.0
+        with:
+          persist-credentials: false
+      - name: Run OpenSSF Scorecard
+        uses: ossf/scorecard-action@05b42c624433fc40578a4040d5cf5e36ddca8cde # v2.4.2
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish: false
