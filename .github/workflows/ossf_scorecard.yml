@@ -6,12 +6,6 @@ on:
     - cron: '0 6 * * 1'
   
   workflow_dispatch:
-    inputs:
-      branch_name:
-        description: 'Branch to run the workflow on'
-        required: true
-        default: 'main'
-        type: string
 
 permissions:
     contents: read
