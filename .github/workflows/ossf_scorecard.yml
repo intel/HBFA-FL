@@ -4,7 +4,6 @@ on:
   schedule:
     # Run at 6:00am on Mondays
     - cron: '0 6 * * 1'
-  
   workflow_dispatch:
 
 permissions:
