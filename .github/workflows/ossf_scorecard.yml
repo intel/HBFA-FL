@@ -4,6 +4,7 @@ on:
   schedule:
     # Run at 6:00am on Mondays
     - cron: '0 6 * * 1'
+  workflow_dispatch:
 
 permissions:
     contents: read
@@ -25,4 +26,4 @@ jobs:
         with:
           results_file: results.sarif
           results_format: sarif
-          publish: false
+          publish_results: false
