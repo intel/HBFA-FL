@@ -74,11 +74,11 @@ jobs:
           apt-get -y update
           apt-get -y install python3 uuid-dev nasm
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           path: hbfa-fl
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           repository: tianocore/edk2
           path: edk2
