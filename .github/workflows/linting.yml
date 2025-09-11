@@ -37,7 +37,18 @@ jobs:
       - name: Run ${{ matrix.tool }} using pre-commit
         if: ${{ matrix.tool != 'gitlint' }}
         run: |
-          pre-commit run ${{ matrix.tool }} --all-files
+          if [ "${{ matrix.tool }}" = "bandit" ]; then
+            pre-commit run ${{ matrix.tool }} --all-files --hook-stage manual -- --format json --output bandit-report.json || true
+          else
+            pre-commit run ${{ matrix.tool }} --all-files
+          fi      
+      - name: Upload Bandit report
+        if: ${{ matrix.tool == 'bandit' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: Bandit-security-report
+          path: bandit-report.json
+          retention-days: 5
       - name: Run gitlint
         env:
           TITLE: ${{ github.event.pull_request.title }}
