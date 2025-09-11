@@ -8,7 +8,7 @@ repos:
     rev: 1.8.6
     hooks:
       - id: bandit
-        args: ["-c", "bandit.conf"]
+        args: ["-c", "bandit.conf", "--format", "json", "--output", "bandit-report.json"]
   - repo: https://github.com/jorisroovers/gitlint
     rev: v0.19.1
     hooks:
