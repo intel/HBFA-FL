@@ -9,6 +9,7 @@ export PACKAGES_PATH="$SRC/hbfa-fl/HBFA:$SRC/edk2"
 export EDK_TOOLS_PATH="$SRC/edk2/BaseTools"
 export CONF_PATH="$SRC/edk2/Conf"
 export WORKSPACE=$WORK
+export PYTHON_COMMAND=python3
 
 build_fuzzer() {
     fuzzer=$1
