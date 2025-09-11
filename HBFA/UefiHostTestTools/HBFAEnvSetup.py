@@ -128,8 +128,7 @@ def GenerateConfCustomized(ConfSrc, ConfPath, ReConfig):
                     os.path.join(ConfPath, 'target.txt'))
     if (not os.path.exists(os.path.join(ConfPath, 'build_rule.txt'))) \
             or ReConfig:
-        SectionName = '[Static-Library-File.USER_DEFINED, ' \
-                       + 'Static-Library-File.HOST_APPLICATION]'
+        SectionName = '[Static-Library-File.USER_DEFINED]'
         InsertContent = '''    <Command.KLEE>
         echo $(STATIC_LIBRARY_FILES_LIST)
         python $(SCRIPT_PATH) ${DLINK_FLAGS} -t $(DLINK) -d $(OUTPUT_DIR)
