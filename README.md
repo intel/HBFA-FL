@@ -1,6 +1,6 @@
 # Host-based Firmware Analyzer - Fuzzing Lite (HBFA-FL)
 
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/intel/hbfa-fl/badge)](https://securityscorecards.dev/viewer/?uri=github.com/intel/hbfa-fl)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/project/github.com/intel/hbfa-fl/badge)](https://securityscorecards.dev/viewer/?uri=github.com%2Fintel%2FHBFA-FL)
 
 The the Host-based Firmware Analysis - Fuzzing Lite (HBFA-FL) is based off of forking the original HBFA from the [edk2-staging repository](https://github.com/tianocore/edk2-staging/tree/HBFA). The original release of HBFA is described in the white-paper: ["Using Host-based Firmware Analysis to Improve Platform Resiliency"](https://www.intel.com/content/dam/develop/external/us/en/documents/intel-usinghbfatoimproveplatformresiliency-820238.pdf). The original release authors were Brian Richardson, Chris Wu, Jiewen Yao, and Vincent J. Zimmer.
 
