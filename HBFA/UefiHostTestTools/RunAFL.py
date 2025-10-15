@@ -32,7 +32,7 @@ elif SysType == "Linux":
 workspace = ''
 
 # HBFA package path
-HBFA_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+HBFA_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Conf directory
 Conf_Path = os.path.join(HBFA_PATH, 'UefiHostFuzzTestPkg', 'Conf')
