@@ -91,6 +91,7 @@ GetNextHob (
 {
   EFI_PEI_HOB_POINTERS  Hob;
 
+  assert (HobStart != NULL);
   Hob.Raw = (UINT8 *) HobStart;
   //
   // Parse the HOB list until end of list or matching type is found.
