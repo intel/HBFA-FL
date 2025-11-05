@@ -216,6 +216,7 @@ Dhcp6SeekStsOption (
   //
   // sizeof (option-code + option-len) = 4
   //
+  //printf("[Dhcp6SeekStsOption] Calling Dhcp6SeekOption with IaInnerLen = 0x%04x\n", IaInnerLen);
   *Option = Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode);
   if (*Option != NULL) {
     StsCode = NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + 4)));

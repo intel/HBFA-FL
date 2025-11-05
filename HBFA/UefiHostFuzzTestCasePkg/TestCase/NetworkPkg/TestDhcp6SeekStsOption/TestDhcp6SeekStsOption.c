@@ -16,7 +16,7 @@
 #include <Library/MemoryAllocationLib.h>
 #include <Library/Dhcp6SeekStsOptionStubLib.h>
 
-#define DHCPV6_PACKED_OPTION_DATA 1024
+#define DHCPV6_PACKED_OPTION_DATA 24
 
 
 VOID
@@ -36,7 +36,7 @@ GetMaxBufferSize (
     sizeof(EFI_DHCP6_IA_DESCRIPTOR) // IaDescriptor
   + sizeof(EFI_DHCP6_PACKET) // DHCP6 Packet
   + DHCPV6_PACKED_OPTION_DATA // Max Length of DHCPv6 packed option data is sizeof(UINT32)
-  // We assume the max length of option data is 1024 bytes here.
+  // We assume the max length of option data is 24 bytes here.
   );
 }
 
