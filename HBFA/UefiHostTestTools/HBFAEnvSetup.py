@@ -85,6 +85,7 @@ def InsertContentToBuildRules(Src, Dst, SectionName, InsertContent):
     src = open(Src, 'r')
     lines = src.readlines()
     src.close()
+    StartPos = 0
     for i in range(len(lines)):
         if SectionName in lines[i]:
             StartPos = i + 1
