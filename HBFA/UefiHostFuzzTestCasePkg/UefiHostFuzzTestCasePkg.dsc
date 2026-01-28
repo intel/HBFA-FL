@@ -276,6 +276,21 @@
    OrderedCollectionLib|MdePkg/Library/BaseOrderedCollectionRedBlackTreeLib/BaseOrderedCollectionRedBlackTreeLib.inf
   }
 
+ UefiHostFuzzTestCasePkg/TestCase/NetworkPkg/TestDhcp6SeekStsOption/TestDhcp6SeekStsOption.inf{
+  <LibraryClasses>
+    DpcLib|NetworkPkg/Library/DxeDpcLib/DxeDpcLib.inf
+    NetLib|NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
+    IpIoLib|NetworkPkg/Library/DxeIpIoLib/DxeIpIoLib.inf
+    UdpIoLib|NetworkPkg/Library/DxeUdpIoLib/DxeUdpIoLib.inf
+    TcpIoLib|NetworkPkg/Library/DxeTcpIoLib/DxeTcpIoLib.inf
+    # HttpLib and HttpIoLib are used for Http Boot and other
+    # HTTP applications.
+    HttpLib|NetworkPkg/Library/DxeHttpLib/DxeHttpLib.inf
+    HttpIoLib|NetworkPkg/Library/DxeHttpIoLib/DxeHttpIoLib.inf
+
+    Dhcp6SeekStsOptionStubLib|UefiHostFuzzTestCasePkg/TestStub/Dhcp6SeekStsOptionStubLib/Dhcp6SeekStsOptionStubLib.inf
+  }
+
  UefiHostFuzzTestCasePkg/TestCase/OvmfPkg/VirtioBlkReadWrite/TestVirtioBlkReadWrite.inf{
   <LibraryClasses>
    NULL|OvmfPkg/VirtioBlkDxe/VirtioBlk.inf
